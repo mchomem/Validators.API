@@ -1,0 +1,25 @@
+@Validators.API_HostAddress = http://localhost:5157
+
+GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=12.ABC.345%2F01DE-35
+Accept: application/json
+###
+
+GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=12ABC34501DE35
+Accept: application/json
+###
+
+GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=56.ABC.345%2F21DE-70
+Accept: application/json
+###
+
+GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=18.781.203%2F0001-28
+Accept: application/json
+###
+
+GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=1
+Accept: application/json
+###
+
+GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=123456789123456789
+Accept: application/json
+###

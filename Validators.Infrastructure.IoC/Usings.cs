@@ -1,0 +1,9 @@
+﻿global using Mapster;
+global using MapsterMapper;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.OpenApi.Models;
+global using System.Reflection;
+global using Validators.Core.Application.Interfaces;
+global using Validators.Core.Application.ProfileMappings;
+global using Validators.Core.Application.Services;

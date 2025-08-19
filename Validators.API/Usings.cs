@@ -1,0 +1,9 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using System.Net;
+global using System.Text.Json;
+global using Validators.API.Middlewares;
+global using Validators.API.Responses;
+global using Validators.Core.Application.DTOs;
+global using Validators.Core.Application.Interfaces;
+global using Validators.Core.Domain.Exceptions;
+global using Validators.Infrastructure.IoC;
