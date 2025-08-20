@@ -28,6 +28,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
+#region Endpoints
+
 app.MapGet("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromQuery] string cnpj) =>
 {
     var result = cnpjService.Validate(cnpj);
@@ -59,5 +61,7 @@ app.MapGet("/cpf/validator", ([FromServices] ICPFService cpfService, [FromQuery]
     op.Description = "Recebe um CPF com ou sem máscara e retorna se é válido.";
     return op;
 });
+
+#endregion
 
 await app.RunAsync();
