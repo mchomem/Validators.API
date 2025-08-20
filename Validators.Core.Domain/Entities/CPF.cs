@@ -2,16 +2,16 @@
 
 #pragma warning disable S101
 
-public class CPF : IdentifierBase
+public sealed class CPF : IdentifierBase
 {
     public CPF(string value) : base(value)
     {
         Value = value;
-        MaskedValue = value;
+        MaskedValue = SetMaskIfNotExists(value);
         DefaultLength = 11;
     }
 
-    public void Validate()
+    public override void Validate()
     {
         // Remover a máscara do CPF e espaços vazios, se existir.
         Value = Regex.Replace(Value, @"[.\- ]", string.Empty);
@@ -51,6 +51,12 @@ public class CPF : IdentifierBase
 
         int rest = (_sum * 10) % 11;
         return (rest == 10) ? 0 : rest;
+    }
+
+    public static string SetMaskIfNotExists(string cpfInput)
+    {
+        var result = Regex.Replace(cpfInput, @"(\d{3})(\d{3})(\d{3})(\d{2})", "$1.$2.$3-$4");
+        return result;
     }
 }
 

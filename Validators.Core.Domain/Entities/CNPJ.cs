@@ -2,16 +2,16 @@
 
 #pragma warning disable S101
 
-public class CNPJ : IdentifierBase
+public sealed class CNPJ : IdentifierBase
 {
     public CNPJ(string value) : base(value)
     {
         Value = value;
-        MaskedValue = value;
+        MaskedValue = SetMaskIfNotExists(value);
         DefaultLength = 14;
     }
 
-    public void Validate()
+    public override void Validate()
     {
         // Remover a máscara do CNPJ e espaços vazios, se existir.
         Value = Regex.Replace(Value, @"[./\- ]", string.Empty);
@@ -118,32 +118,6 @@ public class CNPJ : IdentifierBase
         return 11 - checkDigit;
     }
 
-    //private static int CalculateCheckDigitNumeric(string cnpj)
-    //{
-    //    var weight = 9;
-    //    var sum = 0;
-
-    //    // Percorre os dígitos do CNPJ da direita para a esquerda (de trás pra frente).
-    //    for (int indice = cnpj.Length - 1; indice >= 0; indice--)
-    //    {
-    //        int numericDigit = Convert.ToInt32(cnpj[indice].ToString());
-    //        int product = numericDigit * weight;
-    //        sum += product;
-    //        weight--;
-
-    //        // Reinicia o peso após o 8º dígito para o primeiro dígito.
-    //        if (indice == 4 && cnpj.Length == 12)
-    //            weight = 9;
-
-    //        // Reinicia o peso após o 8º dígito para o segundo dígito.
-    //        if (indice == 5 && cnpj.Length == 13)
-    //            weight = 9;
-    //    }
-
-    //    int checkDigit = sum % 11;
-    //    return checkDigit;
-    //}
-
     private static int GetValueToDigit(char character)
     {
         var number = 0;
@@ -192,6 +166,12 @@ public class CNPJ : IdentifierBase
         }
 
         return number;
+    }
+
+    private static string SetMaskIfNotExists(string cnpjInput)
+    {
+        var result = Regex.Replace(cnpjInput, @"^(.{2})(.{3})(.{3})(.{4})(.{2})$", "$1.$2.$3/$4-$5");
+        return result;
     }
 }
 

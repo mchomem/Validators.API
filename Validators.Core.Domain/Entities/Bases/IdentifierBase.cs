@@ -8,7 +8,9 @@ public abstract class IdentifierBase
     }
 
     public string Value { get; protected set; }
-    public string MaskedValue { get; protected set; }
+    public string MaskedValue { get; protected set; } = string.Empty;
     public bool IsValid { get; protected set; }
     public int DefaultLength { get; protected set; }
+
+    public abstract void Validate();
 }
