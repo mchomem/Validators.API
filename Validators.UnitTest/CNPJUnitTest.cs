@@ -9,13 +9,13 @@ public class CNPJUnitTest
     [InlineData("79.151.553/0001-03")]
     public void Validate_MaskedValue_ReturnTrue(string cnpjValue)
     {
-        //Arrange
+        // Arrange
         var cnpj = new CNPJ(cnpjValue);
 
         // Act
         cnpj.Validate();
 
-        //Asert
+        // Asert
         Assert.True(cnpj.IsValid);
     }
 
@@ -24,13 +24,13 @@ public class CNPJUnitTest
     [InlineData("18781203000128")]
     public void Validate_NonMaskedValue_ReturnTrue(string cnpjValue)
     {
-        //Arrange
+        // Arrange
         var cnpj = new CNPJ(cnpjValue);
 
         // Act
         cnpj.Validate();
 
-        //Asert
+        // Asert
         Assert.True(cnpj.IsValid);
     }
 
@@ -39,10 +39,10 @@ public class CNPJUnitTest
 
     public void Validate_ShortCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
-        //Arrange
+        // Arrange
         var cnpj = new CNPJ(cnpjValue);
 
-        //Assert & Act
+        // Assert & Act
         Assert.Throws<CNPJTooShortException>(() =>
         {
             cnpj.Validate();
@@ -53,10 +53,10 @@ public class CNPJUnitTest
     [InlineData("123456789123456789")]
     public void Validate_LongCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
-        //Arrange
+        // Arrange
         var cnpj = new CNPJ(cnpjValue);
 
-        //Assert & Act
+        // Assert & Act
         Assert.Throws<CNPJTooLongException>(() =>
         {
             cnpj.Validate();
