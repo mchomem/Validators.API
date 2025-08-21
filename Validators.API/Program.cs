@@ -46,7 +46,7 @@ app.MapGet("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromQue
     return op;
 });
 
-app.MapGet("/cpf/validator", ([FromServices] ICPFService cpfService, [FromQuery] string cpf = "280.012.389-38") =>
+app.MapGet("/cpf/validator", ([FromServices] ICPFService cpfService, [FromQuery] string cpf) =>
 {
     var result = cpfService.Validate(cpf);
     var response = new ApiResponse<CPFDto>(result);
