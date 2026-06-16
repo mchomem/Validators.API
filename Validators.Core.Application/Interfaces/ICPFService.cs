@@ -4,7 +4,7 @@
 
 public interface ICPFService
 {
-    CPFDto Validate(string cpfEntrada);
+    CPFResponseDto Validate(string cpfEntrada);
 }
 
 #pragma warning restore S101

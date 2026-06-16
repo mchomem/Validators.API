@@ -1,25 +1,43 @@
-@Validators.API_HostAddress = http://localhost:5157
+﻿@Validators.API_HostAddress = http://localhost:5157
 
-GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=12.ABC.345%2F01DE-35
-Accept: application/json
+POST {{Validators.API_HostAddress}}/cnpj/validator
+Content-Type: application/json
+{
+    "value": "12.ABC.345/01DE-35"
+}
 ###
 
-GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=12ABC34501DE35
-Accept: application/json
+POST {{Validators.API_HostAddress}}/cnpj/validator
+Content-Type: application/json
+{
+    "value": "12ABC34501DE35"
+}
 ###
 
-GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=56.ABC.345%2F21DE-70
-Accept: application/json
+POST {{Validators.API_HostAddress}}/cnpj/validator
+Content-Type: application/json
+{
+    "value": "56.ABC.345/21DE-70"
+}
 ###
 
-GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=18.781.203%2F0001-28
-Accept: application/json
+POST {{Validators.API_HostAddress}}/cnpj/validator
+Content-Type: application/json
+{
+    "value": "18.781.203/0001-28"
+}
 ###
 
-GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=1
-Accept: application/json
+POST {{Validators.API_HostAddress}}/cnpj/validator
+Content-Type: application/json
+{
+    "value": "1"
+}
 ###
 
-GET {{Validators.API_HostAddress}}/cnpj/validator?cnpj=123456789123456789
-Accept: application/json
+POST {{Validators.API_HostAddress}}/cnpj/validator
+Content-Type: application/json
+{
+    "value": "123456789123456789"
+}
 ###

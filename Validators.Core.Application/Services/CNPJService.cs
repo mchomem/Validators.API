@@ -1,4 +1,6 @@
-﻿namespace Validators.Core.Application.Services;
+﻿using Validators.Core.Application.DTOs.CNPJ;
+
+namespace Validators.Core.Application.Services;
 
 #pragma warning disable S101
 
@@ -11,11 +13,11 @@ public class CNPJService : ICNPJService
         _mapper = mapper;
     }
 
-    public CNPJDto Validate(string cnpjEntrada)
+    public CNPJResponseDto Validate(string cnpjEntrada)
     {
         var cnpj = new CNPJ(cnpjEntrada);
         cnpj.Validate();
-        var cnpjDto = _mapper.Map<CNPJDto>(cnpj);
+        var cnpjDto = _mapper.Map<CNPJResponseDto>(cnpj);
         return cnpjDto;
     }
 }

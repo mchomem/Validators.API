@@ -4,7 +4,7 @@
 
 public interface ICNPJService
 {
-    CNPJDto Validate(string cnpjEntrada);
+    CNPJResponseDto Validate(string cnpjEntrada);
 }
 
 #pragma warning restore S101

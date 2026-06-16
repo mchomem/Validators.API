@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/0 - Test/">
+    <Project Path="Validators.UnitTest/Validators.UnitTest.csproj" />
+  </Folder>
+  <Folder Name="/1 - Core/">
+    <Project Path="Validators.Core.Application/Validators.Core.Application.csproj" />
+    <Project Path="Validators.Core.Domain/Validators.Core.Domain.csproj" />
+  </Folder>
+  <Folder Name="/2 - Infrastructure/">
+    <Project Path="Validators.Infrastructure.IoC/Validators.Infrastructure.IoC.csproj" />
+  </Folder>
+  <Folder Name="/3 - Presentation/">
+    <Project Path="Validators.API/Validators.API.csproj" />
+  </Folder>
+</Solution>

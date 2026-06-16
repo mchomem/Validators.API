@@ -1,4 +1,6 @@
-﻿namespace Validators.Core.Application.Services;
+﻿using Validators.Core.Application.DTOs.CPF;
+
+namespace Validators.Core.Application.Services;
 
 #pragma warning disable S101
 
@@ -11,11 +13,11 @@ public class CPFService : ICPFService
         _mapper = mapper;
     }
 
-    public CPFDto Validate(string cpfEntrada)
+    public CPFResponseDto Validate(string cpfEntrada)
     {
         var cpf = new CPF(cpfEntrada);
         cpf.Validate();
-        var cpfDto = _mapper.Map<CPFDto>(cpf);
+        var cpfDto = _mapper.Map<CPFResponseDto>(cpf);
         return cpfDto;
     }
 }

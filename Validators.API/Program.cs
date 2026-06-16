@@ -1,7 +1,7 @@
-/***************************************************************************************
+Ôªø/***************************************************************************************
 *                                                                                      *
-*    E, quando estiverdes orando, perdoai, se tendes alguma coisa contra alguÈm,       *
-*    para que vosso Pai, que est· nos cÈus, vos perdoe as vossas ofensas.              *
+*    E, quando estiverdes orando, perdoai, se tendes alguma coisa contra algu√©m,       *
+*    para que vosso Pai, que est√° nos c√©us, vos perdoe as vossas ofensas.              *
 *                                                                                      *
 *    Marcos 11:25                                                                      *
 *                                                                                      *
@@ -30,35 +30,35 @@ app.UseHttpsRedirection();
 
 #region Endpoints
 
-app.MapGet("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromQuery] string cnpj) =>
+app.MapPost("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromBody] CNPJRequestDto request) =>
 {
-    var result = cnpjService.Validate(cnpj);
-    var response = new ApiResponse<CNPJDto>(result);
+    var result = cnpjService.Validate(request.Value);
+    var response = new ApiResponse<CNPJResponseDto>(result);
     return Results.Ok(response);
 })
 .WithName("ValidateCnpj")
 .WithTags("CNPJ")
-.Produces<ApiResponse<CNPJDto>>(StatusCodes.Status200OK)
+.Produces<ApiResponse<CNPJResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
     op.Summary = "Validade a CNPJ";
-    op.Description = "Recebe um CNPJ (numÈrico ou alfanumÈrico) com ou sem m·scara e retorna se È v·lido.";
+    op.Description = "Recebe um CNPJ (num√©rico ou alfanum√©rico) com ou sem m√°scara e retorna se √© v√°lido.";
     return op;
 });
 
-app.MapGet("/cpf/validator", ([FromServices] ICPFService cpfService, [FromQuery] string cpf) =>
+app.MapPost("/cpf/validator", ([FromServices] ICPFService cpfService, [FromBody] CPFRequestDto request) =>
 {
-    var result = cpfService.Validate(cpf);
-    var response = new ApiResponse<CPFDto>(result);
+    var result = cpfService.Validate(request.Value);
+    var response = new ApiResponse<CPFResponseDto>(result);
     return Results.Ok(response);
 })
 .WithName("ValidateCpf")
 .WithTags("CPF")
-.Produces<ApiResponse<CPFDto>>(StatusCodes.Status200OK)
+.Produces<ApiResponse<CPFResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
     op.Summary = "Validade a CPF";
-    op.Description = "Recebe um CPF com ou sem m·scara e retorna se È v·lido.";
+    op.Description = "Recebe um CPF com ou sem m√°scara e retorna se √© v√°lido.";
     return op;
 });
 
