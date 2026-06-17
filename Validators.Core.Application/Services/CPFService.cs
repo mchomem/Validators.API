@@ -1,6 +1,4 @@
-﻿using Validators.Core.Application.DTOs.CPF;
-
-namespace Validators.Core.Application.Services;
+﻿namespace Validators.Core.Application.Services;
 
 #pragma warning disable S101
 
