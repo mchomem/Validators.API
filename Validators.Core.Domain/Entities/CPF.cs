@@ -13,7 +13,7 @@ public sealed class CPF : IdentifierBase
 
     public override void Validate()
     {
-        // Remover a máscara do CPF e espaços vazios, se existir.
+        // Remove a máscara do CPF e espaços vazios, se existir.
         Value = Regex.Replace(Value, @"[.\- ]", string.Empty);
 
         if (Value.Length > DefaultLength)

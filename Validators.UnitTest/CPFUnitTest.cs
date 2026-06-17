@@ -10,14 +10,7 @@ public class CPFUnitTest
     [InlineData("101.150.990-34")]
     public void Validate_MaskedValue_ReturnTrue(string cpfValue)
     {
-        // Arrange
-        var cpf = new CPF(cpfValue);
-
-        // Act
-        cpf.Validate();
-
-        // Asert
-        Assert.True(cpf.IsValid);
+        AssertValidCPF(cpfValue);
     }
 
     [Theory]
@@ -28,14 +21,7 @@ public class CPFUnitTest
     [InlineData("66974406002")]
     public void Validate_NonMaskedValue_ReturnTrue(string cpfValue)
     {
-        // Arrange
-        var cpf = new CPF(cpfValue);
-
-        // Act
-        cpf.Validate();
-
-        // Asert
-        Assert.True(cpf.IsValid);
+        AssertValidCPF(cpfValue);
     }
 
     [Theory]
@@ -44,7 +30,7 @@ public class CPFUnitTest
     [InlineData("333.333.333-33")]
     [InlineData("444.444.444-44")]
     [InlineData("555.555.555-55")]
-    public void Validate_Value_ReturnFalse(string cpfValue)
+    public void Validate_WithSameNumericalValue_ReturnFalse(string cpfValue)
     {
         // Arrange
         var cpf = new CPF(cpfValue);
@@ -58,7 +44,7 @@ public class CPFUnitTest
 
     [Theory]
     [InlineData("0")]
-    public void Validate_ShortCPF_ThrowsCPFTooShortException(string cpfValue)
+    public void Validate_ShortCPFValue_ThrowsCPFTooShortException(string cpfValue)
     {
         // Arrange
         var cpf = new CPF(cpfValue);
@@ -72,7 +58,7 @@ public class CPFUnitTest
 
     [Theory]
     [InlineData("123456789123456789")]
-    public void Validate_LongCPF_ThrowsCPFTooLongException(string cpfValue)
+    public void Validate_LongCPFValue_ThrowsCPFTooLongException(string cpfValue)
     {
         // Arrange
         var cpf = new CPF(cpfValue);
@@ -82,5 +68,17 @@ public class CPFUnitTest
         {
             cpf.Validate();
         });
+    }
+
+    private static void AssertValidCPF(string cpfValue)
+    {
+        // Arrange
+        var cpf = new CPF(cpfValue);
+
+        // Act
+        cpf.Validate();
+
+        // Asert
+        Assert.True(cpf.IsValid);
     }
 }

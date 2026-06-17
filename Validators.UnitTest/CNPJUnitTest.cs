@@ -1,4 +1,4 @@
-namespace Validators.UnitTest;
+﻿namespace Validators.UnitTest;
 
 public class CNPJUnitTest
 {
@@ -9,14 +9,7 @@ public class CNPJUnitTest
     [InlineData("79.151.553/0001-03")]
     public void Validate_MaskedValue_ReturnTrue(string cnpjValue)
     {
-        // Arrange
-        var cnpj = new CNPJ(cnpjValue);
-
-        // Act
-        cnpj.Validate();
-
-        // Asert
-        Assert.True(cnpj.IsValid);
+        AssertValidCNPJ(cnpjValue);
     }
 
     [Theory]
@@ -24,14 +17,7 @@ public class CNPJUnitTest
     [InlineData("18781203000128")]
     public void Validate_NonMaskedValue_ReturnTrue(string cnpjValue)
     {
-        // Arrange
-        var cnpj = new CNPJ(cnpjValue);
-
-        // Act
-        cnpj.Validate();
-
-        // Asert
-        Assert.True(cnpj.IsValid);
+        AssertValidCNPJ(cnpjValue);
     }
 
     [Theory]
@@ -61,5 +47,17 @@ public class CNPJUnitTest
         {
             cnpj.Validate();
         });
+    }
+
+    private static void AssertValidCNPJ(string cnpjValue)
+    {
+        // Arrange
+        var cnpj = new CNPJ(cnpjValue);
+
+        // Act
+        cnpj.Validate();
+
+        // Asert
+        Assert.True(cnpj.IsValid);
     }
 }
