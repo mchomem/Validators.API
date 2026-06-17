@@ -2,15 +2,27 @@
 
 #pragma warning disable S101
 
+/// <summary>
+/// Representa um CPF (Cadastro de Pessoas Físicas), que é um identificador único para indivíduos no Brasil.
+/// </summary>
 public sealed class CPF : IdentifierBase
 {
+    /// <summary>
+    /// Inicializa uma nova instância da classe CPF com o valor fornecido. O construtor também define a máscara do CPF, caso ela não exista, e define o comprimento padrão para 11 dígitos.
+    /// </summary>
+    /// <param name="value">String representando o valor do CPF.</param>
     public CPF(string value) : base(value)
     {
         Value = value;
-        MaskedValue = SetMaskIfNotExists(value);
+        MaskedValue = SetDefaultMask(value);
         DefaultLength = 11;
     }
 
+    /// <summary>
+    /// Valida o CPF, removendo quaisquer caracteres de formatação (como pontos, traços e espaços) e verificando se o número resultante tem exatamente 11 dígitos. Em seguida, calcula os dígitos verificadores e compara com o valor fornecido para determinar se o CPF é válido ou não.
+    /// </summary>
+    /// <exception cref="CPFTooLongException">Ocorre quando o CPF informado é muito longo.</exception>
+    /// <exception cref="CPFTooShortException">Ocorre quando o CPF informado é muito curto.</exception>
     public override void Validate()
     {
         // Remove a máscara do CPF e espaços vazios, se existir.
@@ -37,6 +49,11 @@ public sealed class CPF : IdentifierBase
         IsValid = Value == calculatedCpf;
     }
 
+    /// <summary>
+    /// Calcula o dígito verificador para um CPF. O cálculo é feito percorrendo os dígitos do CPF da direita para a esquerda, multiplicando cada dígito por um peso que aumenta a cada iteração. O resultado final é obtido através de uma operação de módulo 11.
+    /// </summary>
+    /// <param name="cpf">String representando o CPF sem os dígitos verificadores.</param>
+    /// <returns>O dígito verificador calculado.</returns>
     public static int CalculateCheckDigit(string cpf)
     {
         // basead in https://www.cadcobol.com.br/calcula_cpf_cnpj_caepf.htm
@@ -53,7 +70,12 @@ public sealed class CPF : IdentifierBase
         return (rest == 10) ? 0 : rest;
     }
 
-    public static string SetMaskIfNotExists(string cpfInput)
+    /// <summary>
+    /// Aplica a máscara padrão ao CPF, formatando-o no formato "XXX.XXX.XXX-XX". A função utiliza expressões regulares para inserir os pontos e o traço nos locais corretos, facilitando a leitura do CPF.
+    /// </summary>
+    /// <param name="cpfInput">String representando o CPF sem formatação.</param>
+    /// <returns>String representando o CPF formatado.</returns>
+    public static string SetDefaultMask(string cpfInput)
     {
         var result = Regex.Replace(cpfInput, @"(\d{3})(\d{3})(\d{3})(\d{2})", "$1.$2.$3-$4");
         return result;

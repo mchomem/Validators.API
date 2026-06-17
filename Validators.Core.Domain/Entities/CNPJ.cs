@@ -2,15 +2,28 @@
 
 #pragma warning disable S101
 
+/// <summary>
+/// Representa um CNPJ (Cadastro Nacional da Pessoa Jurídica), que é um identificador único para empresas no Brasil.
+/// </summary>
 public sealed class CNPJ : IdentifierBase
 {
+    /// <summary>
+    /// Inicializa uma nova instância da classe CNPJ com o valor fornecido. O construtor também define a máscara do CNPJ, caso ela não exista, e define o comprimento padrão para 14 dígitos.
+    /// </summary>
+    /// <param name="value">String representando o valor do CNPJ.</param>
     public CNPJ(string value) : base(value)
     {
         Value = value;
-        MaskedValue = SetMaskIfNotExists(value);
+        MaskedValue = SetDefaultMask(value);
         DefaultLength = 14;
     }
 
+    /// <summary>
+    /// Valida o valor do CNPJ, removendo quaisquer caracteres de formatação (como pontos, barras e hífens) e verificando se o comprimento é correto.
+    /// Em seguida, calcula os dígitos verificadores e compara com os dígitos fornecidos para determinar se o CNPJ é válido.
+    /// </summary>
+    /// <exception cref="CNPJTooLongException">Ocorre quando o CNPJ informado é muito longo.</exception>
+    /// <exception cref="CNPJTooShortException">Ocorre quando o CNPJ informado é muito curto.</exception>
     public override void Validate()
     {
         // Remover a máscara do CNPJ e espaços vazios, se existir.
@@ -45,6 +58,11 @@ public sealed class CNPJ : IdentifierBase
         IsValid = Value == calculatedCnpj;
     }
 
+    /// <summary>
+    /// Calcula o dígito verificador para um CNPJ alfanumérico. O cálculo é feito percorrendo os dígitos do CNPJ da direita para a esquerda, multiplicando cada dígito por um peso que aumenta a cada iteração. O resultado final é obtido através de uma operação de módulo 11.
+    /// </summary>
+    /// <param name="cnpj">String representando o CNPJ sem os dígitos verificadores.</param>
+    /// <returns>O dígito verificador calculado.</returns>
     private static int CalculateCheckDigitAlphanumeric(string cnpj)
     {
         var weight = 2;
@@ -79,6 +97,11 @@ public sealed class CNPJ : IdentifierBase
         return checkDigit;
     }
 
+    /// <summary>
+    /// Calcula o dígito verificador para um CNPJ numérico. O cálculo é feito percorrendo os dígitos do CNPJ da direita para a esquerda, multiplicando cada dígito por um peso que varia de 2 a 9. O resultado final é obtido através de uma operação de módulo 11.
+    /// </summary>
+    /// <param name="cnpj">String representando o CNPJ sem os dígitos verificadores.</param>
+    /// <returns>O dígito verificador calculado.</returns>
     private static int CalculateCheckDigitNumeric(string cnpj)
     {
         // A validação do CNPJ usa pesos que variam de 2 a 9.
@@ -118,6 +141,12 @@ public sealed class CNPJ : IdentifierBase
         return 11 - checkDigit;
     }
 
+    /// <summary>
+    /// Obtém o valor numérico correspondente a um caractere alfanumérico. Para caracteres de '0' a '9', retorna o valor numérico correspondente.
+    /// Para caracteres de 'A' a 'Z', retorna um valor numérico que começa em 17 para 'A' e aumenta em 1 para cada letra subsequente.
+    /// </summary>
+    /// <param name="character">O caractere alfanumérico a ser convertido em valor numérico.</param>
+    /// <returns>O valor numérico correspondente ao caractere.</returns>
     private static int GetValueToDigit(char character)
     {
         var number = 0;
@@ -168,7 +197,12 @@ public sealed class CNPJ : IdentifierBase
         return number;
     }
 
-    private static string SetMaskIfNotExists(string cnpjInput)
+    /// <summary>
+    /// Aplica a máscara padrão de CNPJ ao valor fornecido, caso ele ainda não possua a formatação correta. A máscara padrão é "XX.XXX.XXX/XXXX-XX", onde "X" representa um dígito do CNPJ.
+    /// </summary>
+    /// <param name="cnpjInput">O valor do CNPJ a ser formatado.</param>
+    /// <returns>O CNPJ formatado com a máscara padrão.</returns>
+    private static string SetDefaultMask(string cnpjInput)
     {
         var result = Regex.Replace(cnpjInput, @"^(.{2})(.{3})(.{3})(.{4})(.{2})$", "$1.$2.$3/$4-$5");
         return result;
