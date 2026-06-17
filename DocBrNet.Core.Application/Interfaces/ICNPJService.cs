@@ -1,0 +1,10 @@
+﻿namespace DocBrNet.Core.Application.Interfaces;
+
+#pragma warning disable S101
+
+public interface ICNPJService
+{
+    CNPJResponseDto Validate(string cnpjEntrada);
+}
+
+#pragma warning restore S101

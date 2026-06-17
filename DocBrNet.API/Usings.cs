@@ -1,0 +1,10 @@
+﻿global using DocBrNet.API.Middlewares;
+global using DocBrNet.API.Responses;
+global using DocBrNet.Core.Application.DTOs.CNPJ;
+global using DocBrNet.Core.Application.DTOs.CPF;
+global using DocBrNet.Core.Application.Interfaces;
+global using DocBrNet.Core.Domain.Exceptions;
+global using DocBrNet.Infrastructure.IoC;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Net;
+global using System.Text.Json;

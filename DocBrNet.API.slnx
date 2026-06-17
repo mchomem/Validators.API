@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/0 - Test/">
+    <Project Path="DocBrNet.UnitTest/DocBrNet.UnitTest.csproj" />
+  </Folder>
+  <Folder Name="/1 - Core/">
+    <Project Path="DocBrNet.Core.Application/DocBrNet.Core.Application.csproj" />
+    <Project Path="DocBrNet.Core.Domain/DocBrNet.Core.Domain.csproj" />
+  </Folder>
+  <Folder Name="/2 - Infrastructure/">
+    <Project Path="DocBrNet.Infrastructure.IoC/DocBrNet.Infrastructure.IoC.csproj" />
+  </Folder>
+  <Folder Name="/3 - Presentation/">
+    <Project Path="DocBrNet.API/DocBrNet.API.csproj" />
+  </Folder>
+</Solution>

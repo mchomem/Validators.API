@@ -1,0 +1,9 @@
+﻿global using DocBrNet.Core.Application.Interfaces;
+global using DocBrNet.Core.Application.ProfileMappings;
+global using DocBrNet.Core.Application.Services;
+global using Mapster;
+global using MapsterMapper;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.OpenApi.Models;
+global using System.Reflection;
