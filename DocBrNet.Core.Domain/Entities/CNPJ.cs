@@ -7,6 +7,11 @@
 /// </summary>
 public sealed class CNPJ : IdentifierBase
 {
+    public CNPJ()
+    {
+        DefaultLength = 14;
+    }
+
     /// <summary>
     /// Inicializa uma nova instância da classe CNPJ com o valor fornecido. O construtor também define a máscara do CNPJ, caso ela não exista, e define o comprimento padrão para 14 dígitos.
     /// </summary>
@@ -58,8 +63,55 @@ public sealed class CNPJ : IdentifierBase
         IsValid = Value == calculatedCnpj;
     }
 
+    public string Generate(TypeCNPJ type, bool withMask)
+    {
+        var random = new Random();
+        var seletor = new Random();
+        var document = new StringBuilder();
+        var firstCheckDigit = 0;
+        var secondCheckDigit = 0;
+        var documentGenerated = string.Empty;
+
+        if (type == TypeCNPJ.Numeric)
+        {
+            for (int i = 0; i < DefaultLength - 2; i++)
+            {
+                document.Append(random.Next(0, 10));
+            }
+
+            firstCheckDigit = CalculateCheckDigitNumeric(document.ToString());
+            secondCheckDigit = CalculateCheckDigitNumeric($"{document.ToString()}{firstCheckDigit}");
+        }
+        else
+        {
+            for (int i = 0; i < DefaultLength - 2; i++)
+            {
+                if (i >= 0 && i <= 7)
+                    // Seleciona aleatoriamente entre gerar um dígito numérico ou uma letra maiúscula para os primeiros 8 caracteres do CNPJ alfanumérico.
+                    if (seletor.Next(0, 10) >= 3)
+                        document.Append((char)random.Next('A', 'Z' + 1));
+                    else
+                        document.Append(random.Next(0, 10));
+                else if (i >= 8 && i <= 10)
+                    document.Append("0");
+                else if (i == 11)
+                    document.Append("1");
+                else
+                    document.Append(random.Next(0, 10));
+            }
+
+            firstCheckDigit = CalculateCheckDigitAlphanumeric(document.ToString());
+            secondCheckDigit = CalculateCheckDigitAlphanumeric($"{document.ToString()}{firstCheckDigit}");
+        }
+
+        documentGenerated = $"{document.ToString()}{firstCheckDigit}{secondCheckDigit}";
+        return withMask ? SetDefaultMask(documentGenerated) : documentGenerated;
+    }
+
     /// <summary>
-    /// Calcula o dígito verificador para um CNPJ alfanumérico. O cálculo é feito percorrendo os dígitos do CNPJ da direita para a esquerda, multiplicando cada dígito por um peso que aumenta a cada iteração. O resultado final é obtido através de uma operação de módulo 11.
+    /// Calcula o dígito verificador para um CNPJ alfanumérico. O cálculo é feito percorrendo os dígitos
+    /// do CNPJ da direita para a esquerda, multiplicando cada dígito por um peso que aumenta a cada iteração.
+    /// O resultado final é obtido através de uma operação de módulo 11.
     /// </summary>
     /// <param name="cnpj">String representando o CNPJ sem os dígitos verificadores.</param>
     /// <returns>O dígito verificador calculado.</returns>
@@ -98,7 +150,8 @@ public sealed class CNPJ : IdentifierBase
     }
 
     /// <summary>
-    /// Calcula o dígito verificador para um CNPJ numérico. O cálculo é feito percorrendo os dígitos do CNPJ da direita para a esquerda, multiplicando cada dígito por um peso que varia de 2 a 9. O resultado final é obtido através de uma operação de módulo 11.
+    /// Calcula o dígito verificador para um CNPJ numérico. O cálculo é feito percorrendo os dígitos do CNPJ da direita para a esquerda, multiplicando cada dígito por um peso que varia de 2 a 9.
+    /// O resultado final é obtido através de uma operação de módulo 11.
     /// </summary>
     /// <param name="cnpj">String representando o CNPJ sem os dígitos verificadores.</param>
     /// <returns>O dígito verificador calculado.</returns>

@@ -41,8 +41,27 @@ app.MapPost("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromBo
 .Produces<ApiResponse<CNPJResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
-    op.Summary = "Validade a CNPJ";
+    op.Summary = "Validar um CNPJ";
     op.Description = "Recebe um CNPJ (numérico ou alfanumérico) com ou sem máscara e retorna se é válido.";
+    return op;
+});
+
+app.MapGet("cnpj/generator", (
+    [FromServices] ICNPJService cnpjService,
+    [FromQuery] TypeCNPJ type = TypeCNPJ.Numeric,
+    [FromQuery] bool withMask = true,
+    [FromQuery] int maxGenerated = 1) =>
+{
+    var result = cnpjService.Generate(type, withMask, maxGenerated);
+    var response = new ApiResponse<IEnumerable<string>>(result);
+    return Results.Ok(response);
+})
+.WithTags("CNPJ")
+.Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status200OK)
+.WithOpenApi(op =>
+{
+    op.Summary = "Gerar CNPJ's";
+    op.Description = "Gera CNPJ's numéricos ou alfanuméricos e com ou sem máscara.";
     return op;
 });
 
@@ -57,8 +76,26 @@ app.MapPost("/cpf/validator", ([FromServices] ICPFService cpfService, [FromBody]
 .Produces<ApiResponse<CPFResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
-    op.Summary = "Validade a CPF";
+    op.Summary = "Validar um CPF";
     op.Description = "Recebe um CPF com ou sem máscara e retorna se é válido.";
+    return op;
+});
+
+app.MapGet("cpf/generator", (
+    [FromServices] ICPFService cpfService,
+    [FromQuery] bool withMask = true,
+    [FromQuery] int maxGenerated = 1) =>
+{
+    var result = cpfService.Generate(withMask, maxGenerated);
+    var response = new ApiResponse<IEnumerable<string>>(result);
+    return Results.Ok(response);
+})
+.WithTags("CPF")
+.Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status200OK)
+.WithOpenApi(op =>
+{
+    op.Summary = "Gerar CPF's";
+    op.Description = "Gera CPF's com ou sem máscara.";
     return op;
 });
 

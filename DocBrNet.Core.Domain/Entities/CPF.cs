@@ -7,6 +7,11 @@
 /// </summary>
 public sealed class CPF : IdentifierBase
 {
+    public CPF()
+    {
+        DefaultLength = 11;
+    }
+
     /// <summary>
     /// Inicializa uma nova instância da classe CPF com o valor fornecido. O construtor também define a máscara do CPF, caso ela não exista, e define o comprimento padrão para 11 dígitos.
     /// </summary>
@@ -47,6 +52,24 @@ public sealed class CPF : IdentifierBase
         var calculatedCpf = $"{cpfWithoutVD}{firstCheckDigit}{secondCheckDigit}";
 
         IsValid = Value == calculatedCpf;
+    }
+
+    public string Generate(bool withMask)
+    {
+        var random = new Random();
+        var document = new StringBuilder();
+        var documentGenerated = string.Empty;
+
+        for (int i = 0; i < DefaultLength - 2; i++)
+        {
+            document.Append(random.Next(0, 10));
+        }
+
+        var firstCheckDigit = CalculateCheckDigit(document.ToString());
+        var secondCheckDigit = CalculateCheckDigit($"{document.ToString()}{firstCheckDigit}");
+
+        documentGenerated = $"{document.ToString()}{firstCheckDigit}{secondCheckDigit}";
+        return withMask ? SetDefaultMask(documentGenerated) : documentGenerated;
     }
 
     /// <summary>

@@ -18,6 +18,25 @@ public class CPFService : ICPFService
         var cpfDto = _mapper.Map<CPFResponseDto>(cpf);
         return cpfDto;
     }
+
+    public IEnumerable<string> Generate(bool withMask, int maxGenerated)
+    {
+        var cpf = new CPF();
+        var generatedCpfs = new List<string>();
+        var maxValue = 100;
+
+        if(maxGenerated > maxValue)
+        {
+            throw new CPFMaximumQuantityAllowedException(maxValue);
+        }
+
+        for (int i = 0; i < maxGenerated; i++)
+        {
+            
+            generatedCpfs.Add(cpf.Generate(withMask));
+        }
+        return generatedCpfs;
+    }
 }
 
 #pragma warning restore S101

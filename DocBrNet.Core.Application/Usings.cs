@@ -2,5 +2,8 @@
 global using DocBrNet.Core.Application.DTOs.CPF;
 global using DocBrNet.Core.Application.Interfaces;
 global using DocBrNet.Core.Domain.Entities;
+global using DocBrNet.Core.Domain.Enums;
+global using DocBrNet.Core.Domain.Exceptions.CNPJ;
+global using DocBrNet.Core.Domain.Exceptions.CPF;
 global using Mapster;
 global using MapsterMapper;

@@ -1,7 +1,11 @@
-﻿namespace DocBrNet.Core.Domain.Entities.Bases;
+﻿using DocBrNet.Core.Domain.Enums;
+
+namespace DocBrNet.Core.Domain.Entities.Bases;
 
 public abstract class IdentifierBase
 {
+    protected IdentifierBase() { }
+
     protected IdentifierBase(string value)
     {
         Value = value;
