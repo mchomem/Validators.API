@@ -5,7 +5,7 @@
 /// <summary>
 /// Representa um CPF (Cadastro de Pessoas Físicas), que é um identificador único para indivíduos no Brasil.
 /// </summary>
-public sealed class CPF : IdentifierBase
+public sealed class CPF : IdentifierBase, ICpf
 {
     public CPF()
     {

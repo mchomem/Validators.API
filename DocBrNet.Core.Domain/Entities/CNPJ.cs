@@ -5,7 +5,7 @@
 /// <summary>
 /// Representa um CNPJ (Cadastro Nacional da Pessoa Jurídica), que é um identificador único para empresas no Brasil.
 /// </summary>
-public sealed class CNPJ : IdentifierBase
+public sealed class CNPJ : IdentifierBase, ICnpj
 {
     public CNPJ()
     {
