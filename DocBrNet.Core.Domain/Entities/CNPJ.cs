@@ -1,4 +1,6 @@
-﻿namespace DocBrNet.Core.Domain.Entities;
+﻿using System.Collections.Frozen;
+
+namespace DocBrNet.Core.Domain.Entities;
 
 #pragma warning disable S101
 
@@ -42,6 +44,12 @@ public sealed class CNPJ : IdentifierBase, ICnpj
 
         if (Value.Length < DefaultLength)
             throw new CNPJTooShortException($"O CNPJ informado é muito curto. O tamanho padrão é {DefaultLength} dígitos {(thereAnyLetters ? "alfanuméricos" : "numérico")}.");
+
+        if(Value.All(c => c == Value.First()))
+        {
+            IsValid = false;
+            return;
+        }
 
         var cnpjWithoutVD = Value.Substring(0, Value.Length - 2);
         var firstCheckDigit = 0;
