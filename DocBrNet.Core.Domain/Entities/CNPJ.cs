@@ -111,9 +111,9 @@ public sealed class CNPJ : IdentifierBase, ICnpj
                             document.Append((char)random.Next('A', 'Z' + 1));
                         else
                             document.Append(random.Next(0, 10));
-                    else if (i >= 8 && i <= 10)
+                    else if (j >= 8 && j <= 10)
                         document.Append("0");
-                    else if (i == 11)
+                    else if (j == 11)
                         document.Append("1");
                     else
                         document.Append(random.Next(0, 10));
