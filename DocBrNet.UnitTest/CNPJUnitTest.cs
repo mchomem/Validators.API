@@ -37,7 +37,6 @@ public class CnpjUnitTest
 
     [Theory]
     [InlineData("0")]
-
     public void Validate_ShortCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
         // Arrange
