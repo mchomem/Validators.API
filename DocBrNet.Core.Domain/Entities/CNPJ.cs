@@ -1,15 +1,11 @@
-﻿using System.Collections.Frozen;
-
-namespace DocBrNet.Core.Domain.Entities;
-
-#pragma warning disable S101
+﻿namespace DocBrNet.Core.Domain.Entities;
 
 /// <summary>
 /// Representa um CNPJ (Cadastro Nacional da Pessoa Jurídica), que é um identificador único para empresas no Brasil.
 /// </summary>
-public sealed class CNPJ : IdentifierBase, ICnpj
+public sealed class Cnpj : IdentifierBase, ICnpj
 {
-    public CNPJ()
+    public Cnpj()
     {
         DefaultLength = 14;
     }
@@ -19,7 +15,7 @@ public sealed class CNPJ : IdentifierBase, ICnpj
     /// e define o comprimento padrão para 14 dígitos.
     /// </summary>
     /// <param name="value">String representando o valor do CNPJ.</param>
-    public CNPJ(string value) : base(value)
+    public Cnpj(string value) : base(value)
     {
         Value = value;
         MaskedValue = SetDefaultMask(value);
@@ -30,8 +26,8 @@ public sealed class CNPJ : IdentifierBase, ICnpj
     /// Valida o valor do CNPJ, removendo quaisquer caracteres de formatação (como pontos, barras e hífens) e verificando se o comprimento é correto.
     /// Em seguida, calcula os dígitos verificadores e compara com os dígitos fornecidos para determinar se o CNPJ é válido.
     /// </summary>
-    /// <exception cref="CNPJTooLongException">Ocorre quando o CNPJ informado é muito longo.</exception>
-    /// <exception cref="CNPJTooShortException">Ocorre quando o CNPJ informado é muito curto.</exception>
+    /// <exception cref="CnpjTooLongException">Ocorre quando o CNPJ informado é muito longo.</exception>
+    /// <exception cref="CnpjTooShortException">Ocorre quando o CNPJ informado é muito curto.</exception>
     public override void Validate()
     {
         // Remover a máscara do CNPJ e espaços vazios, se existir.
@@ -40,10 +36,10 @@ public sealed class CNPJ : IdentifierBase, ICnpj
         var thereAnyLetters = Value.Any(char.IsLetter);
 
         if (Value.Length > DefaultLength)
-            throw new CNPJTooLongException($"O CNPJ informado é muito longo. O tamanho padrão é {DefaultLength} dígitos {(thereAnyLetters ? "alfanuméricos" : "numérico")}.");
+            throw new CnpjTooLongException($"O CNPJ informado é muito longo. O tamanho padrão é {DefaultLength} dígitos {(thereAnyLetters ? "alfanuméricos" : "numérico")}.");
 
         if (Value.Length < DefaultLength)
-            throw new CNPJTooShortException($"O CNPJ informado é muito curto. O tamanho padrão é {DefaultLength} dígitos {(thereAnyLetters ? "alfanuméricos" : "numérico")}.");
+            throw new CnpjTooShortException($"O CNPJ informado é muito curto. O tamanho padrão é {DefaultLength} dígitos {(thereAnyLetters ? "alfanuméricos" : "numérico")}.");
 
         if(Value.All(c => c == Value.First()))
         {
@@ -79,7 +75,7 @@ public sealed class CNPJ : IdentifierBase, ICnpj
 
         if (maxGenerated > maxValue)
         {
-            throw new CNPJMaximumQuantityAllowedException(maxValue);
+            throw new CnpjMaximumQuantityAllowedException(maxValue);
         }
 
         for (int i = 0; i < maxGenerated; i++)
@@ -285,5 +281,3 @@ public sealed class CNPJ : IdentifierBase, ICnpj
         return result;
     }
 }
-
-#pragma warning restore S101

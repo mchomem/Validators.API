@@ -1,10 +1,6 @@
 ﻿namespace DocBrNet.Core.Domain.Exceptions.CNPJ;
 
-#pragma warning disable S101
-
-public class CNPJException : BusinessException
+public class CnpjException : BusinessException
 {
-    public CNPJException(string message) : base(message) { }
+    public CnpjException(string message) : base(message) { }
 }
-
-#pragma warning restore S101

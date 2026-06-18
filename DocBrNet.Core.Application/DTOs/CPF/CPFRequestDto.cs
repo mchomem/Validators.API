@@ -2,7 +2,7 @@
 
 #pragma warning disable S101
 
-public class CPFRequestDto
+public class CpfRequestDto
 {
     public required string Value { get; init; }
 }

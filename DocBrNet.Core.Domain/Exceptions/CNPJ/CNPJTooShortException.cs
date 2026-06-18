@@ -1,10 +1,6 @@
 ﻿namespace DocBrNet.Core.Domain.Exceptions.CNPJ;
 
-#pragma warning disable S101
-
-public class CNPJTooShortException : CNPJException
+public class CnpjTooShortException : CnpjException
 {
-    public CNPJTooShortException(string message = "Valor do CNPJ é muito curto") : base(message) { }
+    public CnpjTooShortException(string message = "Valor do CNPJ é muito curto") : base(message) { }
 }
-
-#pragma warning restore S101

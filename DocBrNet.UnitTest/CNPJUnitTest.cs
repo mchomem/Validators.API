@@ -1,6 +1,6 @@
 ﻿namespace DocBrNet.UnitTest;
 
-public class CNPJUnitTest
+public class CnpjUnitTest
 {
     [Theory]
     [InlineData("12.ABC.345/01DE-35")]
@@ -41,10 +41,10 @@ public class CNPJUnitTest
     public void Validate_ShortCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
         // Arrange
-        var cnpj = new CNPJ(cnpjValue);
+        var cnpj = new Cnpj(cnpjValue);
 
         // Assert & Act
-        Assert.Throws<CNPJTooShortException>(() =>
+        Assert.Throws<CnpjTooShortException>(() =>
         {
             cnpj.Validate();
         });
@@ -55,10 +55,10 @@ public class CNPJUnitTest
     public void Validate_LongCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
         // Arrange
-        var cnpj = new CNPJ(cnpjValue);
+        var cnpj = new Cnpj(cnpjValue);
 
         // Assert & Act
-        Assert.Throws<CNPJTooLongException>(() =>
+        Assert.Throws<CnpjTooLongException>(() =>
         {
             cnpj.Validate();
         });
@@ -68,7 +68,7 @@ public class CNPJUnitTest
     public void Generate_CNPJInstance_ReturnsMaskedCNPJ()
     {
         // Arrange
-        var cnpj = new CNPJ();
+        var cnpj = new Cnpj();
 
         // Act
         var result = cnpj.Generate(TypeCNPJ.Numeric, true, 1);
@@ -81,7 +81,7 @@ public class CNPJUnitTest
     public void Generate_CNPJInstance_ReturnsNonMaskedCNPJ()
     {
         // Arrange
-        var cnpj = new CNPJ();
+        var cnpj = new Cnpj();
 
         // Act
         var result = cnpj.Generate(TypeCNPJ.Numeric, false, 1);
@@ -94,10 +94,10 @@ public class CNPJUnitTest
     public void Generate_CNPJInstance_ReturnCNPJMaximumQuantityAllowedException()
     {
         // Arrange
-        var cnpj = new CNPJ();
+        var cnpj = new Cnpj();
         
         // Assert & Act
-        Assert.Throws<CNPJMaximumQuantityAllowedException>(() =>
+        Assert.Throws<CnpjMaximumQuantityAllowedException>(() =>
         {
             cnpj.Generate(TypeCNPJ.Numeric, false, 1001);
         });
@@ -106,7 +106,7 @@ public class CNPJUnitTest
     private static void AssertValidCNPJ(string cnpjValue)
     {
         // Arrange
-        var cnpj = new CNPJ(cnpjValue);
+        var cnpj = new Cnpj(cnpjValue);
 
         // Act
         cnpj.Validate();
@@ -118,7 +118,7 @@ public class CNPJUnitTest
     private static void AssertInvalidCNPJ(string cnpjValue)
     {
         // Arrange
-        var cnpj = new CNPJ(cnpjValue);
+        var cnpj = new Cnpj(cnpjValue);
 
         // Act
         cnpj.Validate();

@@ -1,10 +1,6 @@
 ﻿namespace DocBrNet.Core.Domain.Exceptions.CPF;
 
-#pragma warning disable S101
-
-public class CPFTooLongException : CPFException
+public class CpfTooLongException : CpfException
 {
-    public CPFTooLongException(string message = "Valor do CPF é muito longo") : base(message){}
+    public CpfTooLongException(string message = "Valor do CPF é muito longo") : base(message){}
 }
-
-#pragma warning restore S101

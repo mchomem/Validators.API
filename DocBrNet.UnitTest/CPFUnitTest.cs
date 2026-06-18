@@ -1,6 +1,6 @@
 ﻿namespace DocBrNet.UnitTest;
 
-public class CPFUnitTest
+public class CpfUnitTest
 {
     [Theory]
     [InlineData("280.012.389-38")]
@@ -51,7 +51,7 @@ public class CPFUnitTest
     public void Validate_ShortCPFValue_ThrowsCPFTooShortException(string cpfValue)
     {
         // Arrange
-        var cpf = new CPF(cpfValue);
+        var cpf = new Cpf(cpfValue);
 
         // Assert & Act
         Assert.Throws<CPFTooShortException>(() =>
@@ -65,10 +65,10 @@ public class CPFUnitTest
     public void Validate_LongCPFValue_ThrowsCPFTooLongException(string cpfValue)
     {
         // Arrange
-        var cpf = new CPF(cpfValue);
+        var cpf = new Cpf(cpfValue);
 
         // Assert & Act
-        Assert.Throws<CPFTooLongException>(() =>
+        Assert.Throws<CpfTooLongException>(() =>
         {
             cpf.Validate();
         });
@@ -78,7 +78,7 @@ public class CPFUnitTest
     public void Generate_CPFInstance_ReturnsMaskedCPF()
     {
         // Arrange
-        var cpf = new CPF();
+        var cpf = new Cpf();
 
         // Act
         var result = cpf.Generate(true, 1);
@@ -91,7 +91,7 @@ public class CPFUnitTest
     public void Generate_CPFInstance_ReturnsNonMaskedCPF()
     {
         // Arrange
-        var cpf = new CPF();
+        var cpf = new Cpf();
 
         // Act
         var result = cpf.Generate(false, 1);
@@ -103,7 +103,7 @@ public class CPFUnitTest
     private static void AssertValidCPF(string cpfValue)
     {
         // Arrange
-        var cpf = new CPF(cpfValue);
+        var cpf = new Cpf(cpfValue);
 
         // Act
         cpf.Validate();
@@ -115,7 +115,7 @@ public class CPFUnitTest
     private static void AssertInvalidCPF(string cpfValue)
     {
         // Arrange
-        var cpf = new CPF(cpfValue);
+        var cpf = new Cpf(cpfValue);
 
         // Act
         cpf.Validate();

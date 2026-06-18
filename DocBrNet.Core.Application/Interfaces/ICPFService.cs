@@ -1,12 +1,8 @@
 ﻿namespace DocBrNet.Core.Application.Interfaces;
 
-#pragma warning disable S101
-
-public interface ICPFService
+public interface ICpfService
 {
-    CPFResponseDto Validate(string cpfEntrada);
+    CpfResponseDto Validate(CpfRequestDto cpfRequest);
 
     IEnumerable<string> Generate(bool withMask, int maxGenerated);
 }
-
-#pragma warning restore S101

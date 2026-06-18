@@ -2,7 +2,7 @@
 
 #pragma warning disable S101
 
-public class CPFTooShortException : CPFException
+public class CPFTooShortException : CpfException
 {
     public CPFTooShortException(string message = "Valor do CPF é muito curto") : base(message) { }
 }

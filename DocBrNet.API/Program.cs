@@ -30,15 +30,15 @@ app.UseHttpsRedirection();
 
 #region Endpoints
 
-app.MapPost("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromBody] CNPJRequestDto request) =>
+app.MapPost("/cnpj/validator", ([FromServices] ICnpjService cnpjService, [FromBody] CnpjRequestDto request) =>
 {
-    var result = cnpjService.Validate(request.Value);
-    var response = new ApiResponse<CNPJResponseDto>(result);
+    var result = cnpjService.Check(request);
+    var response = new ApiResponse<CnpjResponseDto>(result);
     return Results.Ok(response);
 })
 .WithName("ValidateCnpj")
 .WithTags("CNPJ")
-.Produces<ApiResponse<CNPJResponseDto>>(StatusCodes.Status200OK)
+.Produces<ApiResponse<CnpjResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
     op.Summary = "Validar um CNPJ";
@@ -47,7 +47,7 @@ app.MapPost("/cnpj/validator", ([FromServices] ICNPJService cnpjService, [FromBo
 });
 
 app.MapGet("cnpj/generator", (
-    [FromServices] ICNPJService cnpjService,
+    [FromServices] ICnpjService cnpjService,
     [FromQuery] TypeCNPJ type = TypeCNPJ.Numeric,
     [FromQuery] bool withMask = true,
     [FromQuery] int maxGenerated = 1) =>
@@ -65,15 +65,15 @@ app.MapGet("cnpj/generator", (
     return op;
 });
 
-app.MapPost("/cpf/validator", ([FromServices] ICPFService cpfService, [FromBody] CPFRequestDto request) =>
+app.MapPost("/cpf/validator", ([FromServices] ICpfService cpfService, [FromBody] CpfRequestDto request) =>
 {
-    var result = cpfService.Validate(request.Value);
-    var response = new ApiResponse<CPFResponseDto>(result);
+    var result = cpfService.Validate(request);
+    var response = new ApiResponse<CpfResponseDto>(result);
     return Results.Ok(response);
 })
 .WithName("ValidateCpf")
 .WithTags("CPF")
-.Produces<ApiResponse<CPFResponseDto>>(StatusCodes.Status200OK)
+.Produces<ApiResponse<CpfResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
     op.Summary = "Validar um CPF";
@@ -82,7 +82,7 @@ app.MapPost("/cpf/validator", ([FromServices] ICPFService cpfService, [FromBody]
 });
 
 app.MapGet("cpf/generator", (
-    [FromServices] ICPFService cpfService,
+    [FromServices] ICpfService cpfService,
     [FromQuery] bool withMask = true,
     [FromQuery] int maxGenerated = 1) =>
 {

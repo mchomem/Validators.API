@@ -1,11 +1,7 @@
 ﻿namespace DocBrNet.Core.Domain.Exceptions.CPF;
 
-#pragma warning disable S101
-
-public class CPFMaximumQuantityAllowedException : BusinessException
+public class CpfMaximumQuantityAllowedException : BusinessException
 {
-    public CPFMaximumQuantityAllowedException(int total)
+    public CpfMaximumQuantityAllowedException(int total)
         : base($"A quantidade máxima permitida para geração de CPF's é de {total}.") { }
 }
-
-#pragma warning restore S101

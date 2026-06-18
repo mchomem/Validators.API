@@ -4,7 +4,7 @@ public static class ProfileMapping
 {
     public static void RegisterMappings(TypeAdapterConfig config)
     {
-        config.NewConfig<CNPJ, CNPJResponseDto>().TwoWays();
-        config.NewConfig<CPF, CPFResponseDto>().TwoWays();
+        config.NewConfig<Cnpj, CnpjResponseDto>().TwoWays();
+        config.NewConfig<Cpf, CpfResponseDto>().TwoWays();
     }
 }

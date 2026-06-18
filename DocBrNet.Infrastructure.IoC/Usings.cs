@@ -1,6 +1,10 @@
-﻿global using DocBrNet.Core.Application.Interfaces;
+﻿global using DocBrNet.Core.Application.DTOs.CNPJ;
+global using DocBrNet.Core.Application.DTOs.CPF;
+global using DocBrNet.Core.Application.Interfaces;
 global using DocBrNet.Core.Application.ProfileMappings;
 global using DocBrNet.Core.Application.Services;
+global using DocBrNet.Core.Application.Validators;
+global using FluentValidation;
 global using Mapster;
 global using MapsterMapper;
 global using Microsoft.Extensions.Configuration;

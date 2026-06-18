@@ -1,12 +1,8 @@
 ﻿namespace DocBrNet.Core.Application.Interfaces;
 
-#pragma warning disable S101
-
-public interface ICNPJService
+public interface ICnpjService
 {
-    CNPJResponseDto Validate(string cnpjEntrada);
+    CnpjResponseDto Check(CnpjRequestDto cnpjRequest);
 
     IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated);
 }
-
-#pragma warning restore S101

@@ -6,8 +6,15 @@ public static class DependenceInjectionApi
     {
         #region Services
 
-        services.AddScoped<ICNPJService, CNPJService>();
-        services.AddScoped<ICPFService, CPFService>();
+        services.AddScoped<ICnpjService, CnpjService>();
+        services.AddScoped<ICpfService, CpfService>();
+
+        #endregion
+
+        #region Validators
+
+        services.AddScoped<IValidator<CnpjRequestDto>, CnpjRequestValidator>();
+        services.AddScoped<IValidator<CpfRequestDto>, CpfRequestValidator>();
 
         #endregion
 

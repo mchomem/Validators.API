@@ -1,10 +1,6 @@
 ﻿namespace DocBrNet.Core.Domain.Exceptions.CPF;
 
-#pragma warning disable S101
-
-public class CPFException : BusinessException
+public class CpfException : BusinessException
 {
-    public CPFException(string message) : base(message) { }
+    public CpfException(string message) : base(message) { }
 }
-
-#pragma warning restore S101

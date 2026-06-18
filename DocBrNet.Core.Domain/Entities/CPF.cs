@@ -1,13 +1,11 @@
 ﻿namespace DocBrNet.Core.Domain.Entities;
 
-#pragma warning disable S101
-
 /// <summary>
 /// Representa um CPF (Cadastro de Pessoas Físicas), que é um identificador único para indivíduos no Brasil.
 /// </summary>
-public sealed class CPF : IdentifierBase, ICpf
+public sealed class Cpf : IdentifierBase, ICpf
 {
-    public CPF()
+    public Cpf()
     {
         DefaultLength = 11;
     }
@@ -16,7 +14,7 @@ public sealed class CPF : IdentifierBase, ICpf
     /// Inicializa uma nova instância da classe CPF com o valor fornecido. O construtor também define a máscara do CPF, caso ela não exista, e define o comprimento padrão para 11 dígitos.
     /// </summary>
     /// <param name="value">String representando o valor do CPF.</param>
-    public CPF(string value) : base(value)
+    public Cpf(string value) : base(value)
     {
         Value = value;
         MaskedValue = SetDefaultMask(value);
@@ -26,7 +24,7 @@ public sealed class CPF : IdentifierBase, ICpf
     /// <summary>
     /// Valida o CPF, removendo quaisquer caracteres de formatação (como pontos, traços e espaços) e verificando se o número resultante tem exatamente 11 dígitos. Em seguida, calcula os dígitos verificadores e compara com o valor fornecido para determinar se o CPF é válido ou não.
     /// </summary>
-    /// <exception cref="CPFTooLongException">Ocorre quando o CPF informado é muito longo.</exception>
+    /// <exception cref="CpfTooLongException">Ocorre quando o CPF informado é muito longo.</exception>
     /// <exception cref="CPFTooShortException">Ocorre quando o CPF informado é muito curto.</exception>
     public override void Validate()
     {
@@ -34,7 +32,7 @@ public sealed class CPF : IdentifierBase, ICpf
         Value = Regex.Replace(Value, @"[.\- ]", string.Empty);
 
         if (Value.Length > DefaultLength)
-            throw new CPFTooLongException($"Formato incorreto: o CPF deve conter {DefaultLength} dígitos.");
+            throw new CpfTooLongException($"Formato incorreto: o CPF deve conter {DefaultLength} dígitos.");
 
         if (Value.Length < DefaultLength)
             throw new CPFTooShortException($"Formato incorreto: o CPF deve conter {DefaultLength} dígitos.");
@@ -61,7 +59,7 @@ public sealed class CPF : IdentifierBase, ICpf
 
         if (maxGenerated > maxValue)
         {
-            throw new CPFMaximumQuantityAllowedException(maxValue);
+            throw new CpfMaximumQuantityAllowedException(maxValue);
         }
 
         for (int i = 0; i < maxGenerated; i++)
@@ -119,5 +117,3 @@ public sealed class CPF : IdentifierBase, ICpf
         return result;
     }
 }
-
-#pragma warning restore S101
