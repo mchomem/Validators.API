@@ -49,6 +49,32 @@ public class CNPJUnitTest
         });
     }
 
+    [Fact]
+    public void Generate_CNPJInstance_ReturnsMaskedCNPJ()
+    {
+        // Arrange
+        var cnpj = new CNPJ();
+
+        // Act
+        var result = cnpj.Generate(TypeCNPJ.Numeric, true);
+
+        // Assert
+        Assert.Matches(@"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}", result);
+    }
+
+    [Fact]
+    public void Generate_CNPJInstance_ReturnsNonMaskedCNPJ()
+    {
+        // Arrange
+        var cnpj = new CNPJ();
+        
+        // Act
+        var result = cnpj.Generate(TypeCNPJ.Numeric, false);
+
+        // Assert
+        Assert.Matches(@"\d{14}", result);
+    }
+
     private static void AssertValidCNPJ(string cnpjValue)
     {
         // Arrange

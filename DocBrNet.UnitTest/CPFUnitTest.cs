@@ -70,6 +70,32 @@ public class CPFUnitTest
         });
     }
 
+    [Fact]
+    public void Generate_CPFInstance_ReturnsMaskedCPF()
+    {
+        // Arrange
+        var cpf = new CPF();
+
+        // Act
+        var result = cpf.Generate(true);
+
+        // Assert
+        Assert.Matches(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", result);
+    }
+
+    [Fact]
+    public void Generate_CPFInstance_ReturnsNonMaskedCPF()
+    {
+        // Arrange
+        var cpf = new CPF();
+
+        // Act
+        var result = cpf.Generate(false);
+
+        // Assert
+        Assert.Matches(@"^\d{11}$", result);
+    }
+
     private static void AssertValidCPF(string cpfValue)
     {
         // Arrange
