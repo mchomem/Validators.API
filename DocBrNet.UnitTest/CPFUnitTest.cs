@@ -32,14 +32,18 @@ public class CPFUnitTest
     [InlineData("555.555.555-55")]
     public void Validate_WithSameNumericalValue_ReturnFalse(string cpfValue)
     {
-        // Arrange
-        var cpf = new CPF(cpfValue);
+        AssertInvalidCPF(cpfValue);
+    }
 
-        // Act
-        cpf.Validate();
-
-        // Asert
-        Assert.False(cpf.IsValid);
+    [Theory]
+    [InlineData("321.323.658-24")]
+    [InlineData("255.130.987-52")]
+    [InlineData("152.302.158-68")]
+    [InlineData("352.894.195-96")]
+    [InlineData("023.583.060-05")]
+    public void Validate_MaskedValue_ReturnFalse(string cpfValue)
+    {
+        AssertInvalidCPF(cpfValue);
     }
 
     [Theory]
@@ -77,10 +81,10 @@ public class CPFUnitTest
         var cpf = new CPF();
 
         // Act
-        var result = cpf.Generate(true);
+        var result = cpf.Generate(true, 1);
 
         // Assert
-        Assert.Matches(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", result);
+        Assert.Matches(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", result.First());
     }
 
     [Fact]
@@ -90,10 +94,10 @@ public class CPFUnitTest
         var cpf = new CPF();
 
         // Act
-        var result = cpf.Generate(false);
+        var result = cpf.Generate(false, 1);
 
         // Assert
-        Assert.Matches(@"^\d{11}$", result);
+        Assert.Matches(@"^\d{11}$", result.First());
     }
 
     private static void AssertValidCPF(string cpfValue)
@@ -106,5 +110,17 @@ public class CPFUnitTest
 
         // Asert
         Assert.True(cpf.IsValid);
+    }
+
+    private static void AssertInvalidCPF(string cpfValue)
+    {
+        // Arrange
+        var cpf = new CPF(cpfValue);
+
+        // Act
+        cpf.Validate();
+
+        // Asert
+        Assert.False(cpf.IsValid);
     }
 }

@@ -2,5 +2,5 @@
 
 public interface ICpf
 {
-    public string Generate(bool withMask);
+    public IEnumerable<string> Generate(bool withMask, int maxGenerated);
 }

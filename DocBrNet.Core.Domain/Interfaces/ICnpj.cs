@@ -2,5 +2,5 @@
 
 public interface ICnpj
 {
-    public string Generate(TypeCNPJ type, bool withMask);
+    public IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated);
 }

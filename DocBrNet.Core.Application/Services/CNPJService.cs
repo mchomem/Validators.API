@@ -22,20 +22,7 @@ public class CNPJService : ICNPJService
     public IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated)
     {
         var cnpj = new CNPJ();
-        var cnpjs = new List<string>();
-        var maxValue = 100;
-
-        if (maxGenerated > maxValue)
-        {
-            throw new CNPJMaximumQuantityAllowedException(maxValue);
-        }
-
-        for (int i = 0; i < maxGenerated; i++)
-        {
-            cnpjs.Add(cnpj.Generate(type, withMask));
-        }
-
-        return cnpjs;
+        return cnpj.Generate(type, withMask, maxGenerated);
     }
 }
 

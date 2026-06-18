@@ -13,7 +13,8 @@ public sealed class CNPJ : IdentifierBase, ICnpj
     }
 
     /// <summary>
-    /// Inicializa uma nova instância da classe CNPJ com o valor fornecido. O construtor também define a máscara do CNPJ, caso ela não exista, e define o comprimento padrão para 14 dígitos.
+    /// Inicializa uma nova instância da classe CNPJ com o valor fornecido. O construtor também define a máscara do CNPJ, caso ela não exista,
+    /// e define o comprimento padrão para 14 dígitos.
     /// </summary>
     /// <param name="value">String representando o valor do CNPJ.</param>
     public CNPJ(string value) : base(value)
@@ -63,49 +64,64 @@ public sealed class CNPJ : IdentifierBase, ICnpj
         IsValid = Value == calculatedCnpj;
     }
 
-    public string Generate(TypeCNPJ type, bool withMask)
+    public IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated)
     {
-        var random = new Random();
-        var seletor = new Random();
-        var document = new StringBuilder();
-        var firstCheckDigit = 0;
-        var secondCheckDigit = 0;
-        var documentGenerated = string.Empty;
+        var maxValue = 100;
+        var generatedCnpjs = new List<string>();
 
-        if (type == TypeCNPJ.Numeric)
+        if (maxGenerated > maxValue)
         {
-            for (int i = 0; i < DefaultLength - 2; i++)
-            {
-                document.Append(random.Next(0, 10));
-            }
-
-            firstCheckDigit = CalculateCheckDigitNumeric(document.ToString());
-            secondCheckDigit = CalculateCheckDigitNumeric($"{document.ToString()}{firstCheckDigit}");
+            throw new CNPJMaximumQuantityAllowedException(maxValue);
         }
-        else
+
+        for (int i = 0; i < maxGenerated; i++)
         {
-            for (int i = 0; i < DefaultLength - 2; i++)
+            var random = new Random();
+            var seletor = new Random();
+            var document = new StringBuilder();
+            var firstCheckDigit = 0;
+            var secondCheckDigit = 0;
+            var documentGenerated = string.Empty;
+
+            if (type == TypeCNPJ.Numeric)
             {
-                if (i >= 0 && i <= 7)
-                    // Seleciona aleatoriamente entre gerar um dígito numérico ou uma letra maiúscula para os primeiros 8 caracteres do CNPJ alfanumérico.
-                    if (seletor.Next(0, 10) >= 3)
-                        document.Append((char)random.Next('A', 'Z' + 1));
+                for (int j = 0; j < DefaultLength - 2; j++)
+                {
+                    document.Append(random.Next(0, 10));
+                }
+
+                firstCheckDigit = CalculateCheckDigitNumeric(document.ToString());
+                secondCheckDigit = CalculateCheckDigitNumeric($"{document.ToString()}{firstCheckDigit}");
+            }
+            else
+            {
+                for (int j = 0; j < DefaultLength - 2; j++)
+                {
+                    if (i >= 0 && i <= 7)
+                        // Seleciona aleatoriamente entre gerar um dígito numérico ou uma letra maiúscula para os primeiros 8 caracteres do CNPJ.
+                        if (seletor.Next(0, 10) >= 3)
+                            document.Append((char)random.Next('A', 'Z' + 1));
+                        else
+                            document.Append(random.Next(0, 10));
+                    else if (i >= 8 && i <= 10)
+                        document.Append("0");
+                    else if (i == 11)
+                        document.Append("1");
                     else
                         document.Append(random.Next(0, 10));
-                else if (i >= 8 && i <= 10)
-                    document.Append("0");
-                else if (i == 11)
-                    document.Append("1");
-                else
-                    document.Append(random.Next(0, 10));
+                }
+
+                firstCheckDigit = CalculateCheckDigitAlphanumeric(document.ToString());
+                secondCheckDigit = CalculateCheckDigitAlphanumeric($"{document.ToString()}{firstCheckDigit}");
             }
 
-            firstCheckDigit = CalculateCheckDigitAlphanumeric(document.ToString());
-            secondCheckDigit = CalculateCheckDigitAlphanumeric($"{document.ToString()}{firstCheckDigit}");
+            documentGenerated = $"{document.ToString()}{firstCheckDigit}{secondCheckDigit}";
+            documentGenerated = withMask ? SetDefaultMask(documentGenerated) : documentGenerated;
+
+            generatedCnpjs.Add(documentGenerated);
         }
 
-        documentGenerated = $"{document.ToString()}{firstCheckDigit}{secondCheckDigit}";
-        return withMask ? SetDefaultMask(documentGenerated) : documentGenerated;
+        return generatedCnpjs;
     }
 
     /// <summary>

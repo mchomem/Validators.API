@@ -22,20 +22,7 @@ public class CPFService : ICPFService
     public IEnumerable<string> Generate(bool withMask, int maxGenerated)
     {
         var cpf = new CPF();
-        var generatedCpfs = new List<string>();
-        var maxValue = 100;
-
-        if(maxGenerated > maxValue)
-        {
-            throw new CPFMaximumQuantityAllowedException(maxValue);
-        }
-
-        for (int i = 0; i < maxGenerated; i++)
-        {
-            
-            generatedCpfs.Add(cpf.Generate(withMask));
-        }
-        return generatedCpfs;
+        return cpf.Generate(withMask, maxGenerated);
     }
 }
 

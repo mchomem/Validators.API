@@ -54,22 +54,37 @@ public sealed class CPF : IdentifierBase, ICpf
         IsValid = Value == calculatedCpf;
     }
 
-    public string Generate(bool withMask)
+    public IEnumerable<string> Generate(bool withMask, int maxGenerated)
     {
-        var random = new Random();
-        var document = new StringBuilder();
-        var documentGenerated = string.Empty;
+        var maxValue = 100;
+        var generatedCpfs = new List<string>();
 
-        for (int i = 0; i < DefaultLength - 2; i++)
+        if (maxGenerated > maxValue)
         {
-            document.Append(random.Next(0, 10));
+            throw new CPFMaximumQuantityAllowedException(maxValue);
         }
 
-        var firstCheckDigit = CalculateCheckDigit(document.ToString());
-        var secondCheckDigit = CalculateCheckDigit($"{document.ToString()}{firstCheckDigit}");
+        for (int i = 0; i < maxGenerated; i++)
+        {
+            var random = new Random();
+            var document = new StringBuilder();
+            var documentGenerated = string.Empty;
 
-        documentGenerated = $"{document.ToString()}{firstCheckDigit}{secondCheckDigit}";
-        return withMask ? SetDefaultMask(documentGenerated) : documentGenerated;
+            for (int j = 0; j < DefaultLength - 2; j++)
+            {
+                document.Append(random.Next(0, 10));
+            }
+
+            var firstCheckDigit = CalculateCheckDigit(document.ToString());
+            var secondCheckDigit = CalculateCheckDigit($"{document.ToString()}{firstCheckDigit}");
+
+            documentGenerated = $"{document.ToString()}{firstCheckDigit}{secondCheckDigit}";
+            documentGenerated = withMask ? SetDefaultMask(documentGenerated) : documentGenerated;
+
+            generatedCpfs.Add(documentGenerated);
+        }
+        
+        return generatedCpfs;
     }
 
     /// <summary>
