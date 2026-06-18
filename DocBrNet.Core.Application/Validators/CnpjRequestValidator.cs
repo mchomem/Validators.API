@@ -1,5 +1,8 @@
 ﻿namespace DocBrNet.Core.Application.Validators;
 
+/// <summary>
+/// Validador para a requisição de CNPJ, garantindo que o valor seja obrigatório e tenha um comprimento adequado (entre 14 e 18 caracteres, considerando a possibilidade de máscara).
+/// </summary>
 public class CnpjRequestValidator : AbstractValidator<CnpjRequestDto>
 {
     public CnpjRequestValidator()

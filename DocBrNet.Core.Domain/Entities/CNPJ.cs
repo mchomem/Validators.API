@@ -68,7 +68,7 @@ public sealed class Cnpj : IdentifierBase, ICnpj
         IsValid = Value == calculatedCnpj;
     }
 
-    public IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated)
+    public IEnumerable<string> Generate(TypeCnpj type, bool withMask, int maxGenerated)
     {
         var maxValue = 100;
         var generatedCnpjs = new List<string>();
@@ -87,7 +87,7 @@ public sealed class Cnpj : IdentifierBase, ICnpj
             var secondCheckDigit = 0;
             var documentGenerated = string.Empty;
 
-            if (type == TypeCNPJ.Numeric)
+            if (type == TypeCnpj.Numeric)
             {
                 for (int j = 0; j < DefaultLength - 2; j++)
                 {

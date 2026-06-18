@@ -21,7 +21,7 @@ public class CnpjService : ICnpjService
         return cnpjDto;
     }
 
-    public IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated)
+    public IEnumerable<string> Generate(TypeCnpj type, bool withMask, int maxGenerated)
     {
         var cnpj = new Cnpj();
         return cnpj.Generate(type, withMask, maxGenerated);

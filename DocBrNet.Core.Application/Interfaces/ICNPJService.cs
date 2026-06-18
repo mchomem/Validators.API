@@ -4,5 +4,5 @@ public interface ICnpjService
 {
     CnpjResponseDto Check(CnpjRequestDto cnpjRequest);
 
-    IEnumerable<string> Generate(TypeCNPJ type, bool withMask, int maxGenerated);
+    IEnumerable<string> Generate(TypeCnpj type, bool withMask, int maxGenerated);
 }

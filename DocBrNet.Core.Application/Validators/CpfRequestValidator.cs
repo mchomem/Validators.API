@@ -1,5 +1,8 @@
 ﻿namespace DocBrNet.Core.Application.Validators;
 
+/// <summary>
+/// Validador para a requisição de CPF, garantindo que o valor seja obrigatório e tenha um comprimento adequado (entre 11 e 14 caracteres, considerando a possibilidade de máscara).
+/// </summary>
 public class CpfRequestValidator : AbstractValidator<CpfRequestDto>
 {
     public CpfRequestValidator()

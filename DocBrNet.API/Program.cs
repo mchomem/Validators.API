@@ -48,7 +48,7 @@ app.MapPost("/cnpj/validator", ([FromServices] ICnpjService cnpjService, [FromBo
 
 app.MapGet("cnpj/generator", (
     [FromServices] ICnpjService cnpjService,
-    [FromQuery] TypeCNPJ type = TypeCNPJ.Numeric,
+    [FromQuery] TypeCnpj type = TypeCnpj.Numeric,
     [FromQuery] bool withMask = true,
     [FromQuery] int maxGenerated = 1) =>
 {

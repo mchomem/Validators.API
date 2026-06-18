@@ -70,7 +70,7 @@ public class CnpjUnitTest
         var cnpj = new Cnpj();
 
         // Act
-        var result = cnpj.Generate(TypeCNPJ.Numeric, true, 1);
+        var result = cnpj.Generate(TypeCnpj.Numeric, true, 1);
 
         // Assert
         Assert.Matches(@"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}", result.First());
@@ -83,7 +83,7 @@ public class CnpjUnitTest
         var cnpj = new Cnpj();
 
         // Act
-        var result = cnpj.Generate(TypeCNPJ.Numeric, false, 1);
+        var result = cnpj.Generate(TypeCnpj.Numeric, false, 1);
 
         // Assert
         Assert.Matches(@"\d{14}", result.First());
@@ -98,7 +98,7 @@ public class CnpjUnitTest
         // Assert & Act
         Assert.Throws<CnpjMaximumQuantityAllowedException>(() =>
         {
-            cnpj.Generate(TypeCNPJ.Numeric, false, 1001);
+            cnpj.Generate(TypeCnpj.Numeric, false, 1001);
         });
     }
 
