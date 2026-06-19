@@ -28,7 +28,7 @@ public sealed class Cnpj : IdentifierBase, ICnpj
     /// </summary>
     /// <exception cref="CnpjTooLongException">Ocorre quando o CNPJ informado é muito longo.</exception>
     /// <exception cref="CnpjTooShortException">Ocorre quando o CNPJ informado é muito curto.</exception>
-    public override void Validate()
+    public override void Check()
     {
         // Remover a máscara do CNPJ e espaços vazios, se existir.
         Value = Regex.Replace(Value, @"[./\- ]", string.Empty);
@@ -68,6 +68,14 @@ public sealed class Cnpj : IdentifierBase, ICnpj
         IsValid = Value == calculatedCnpj;
     }
 
+    /// <summary>
+    /// Gera uma lista de CNPJs válidos com base no tipo especificado (numérico ou alfanumérico), com ou sem máscara, e a quantidade máxima a ser gerada.
+    /// </summary>
+    /// <param name="type">O tipo de CNPJ a ser gerado (numérico ou alfanumérico).</param>
+    /// <param name="withMask">Indica se o CNPJ gerado deve incluir a máscara padrão.</param>
+    /// <param name="maxGenerated">A quantidade máxima de CNPJs a serem gerados.</param>
+    /// <returns>Uma lista de CNPJs gerados.</returns>
+    /// <exception cref="CnpjMaximumQuantityAllowedException">Ocorre quando a quantidade máxima de CNPJs a serem gerados é excedida.</exception>
     public IEnumerable<string> Generate(TypeCnpj type, bool withMask, int maxGenerated)
     {
         var maxValue = 100;

@@ -30,29 +30,27 @@ app.UseHttpsRedirection();
 
 #region Endpoints
 
-app.MapPost("/cnpj/validator", ([FromServices] ICnpjService cnpjService, [FromBody] CnpjRequestDto request) =>
+app.MapPost("/cnpj/check", ([FromServices] ICnpjService cnpjService, [FromBody] CnpjCheckerRequestDto request) =>
 {
     var result = cnpjService.Check(request);
     var response = new ApiResponse<CnpjResponseDto>(result);
     return Results.Ok(response);
 })
-.WithName("ValidateCnpj")
+.WithName("CheckCnpj")
 .WithTags("CNPJ")
 .Produces<ApiResponse<CnpjResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
-    op.Summary = "Validar um CNPJ";
+    op.Summary = "Verificar um CNPJ";
     op.Description = "Recebe um CNPJ (numérico ou alfanumérico) com ou sem máscara e retorna se é válido.";
     return op;
 });
 
-app.MapGet("cnpj/generator", (
+app.MapPost("cnpj/generator", (
     [FromServices] ICnpjService cnpjService,
-    [FromQuery] TypeCnpj type = TypeCnpj.Numeric,
-    [FromQuery] bool withMask = true,
-    [FromQuery] int maxGenerated = 1) =>
+    [FromBody] CnpjGeneratorRequestDto request) =>
 {
-    var result = cnpjService.Generate(type, withMask, maxGenerated);
+    var result = cnpjService.Generate(request);
     var response = new ApiResponse<IEnumerable<string>>(result);
     return Results.Ok(response);
 })
@@ -65,28 +63,27 @@ app.MapGet("cnpj/generator", (
     return op;
 });
 
-app.MapPost("/cpf/validator", ([FromServices] ICpfService cpfService, [FromBody] CpfRequestDto request) =>
+app.MapPost("/cpf/check", ([FromServices] ICpfService cpfService, [FromBody] CpfCheckerRequestDto request) =>
 {
-    var result = cpfService.Validate(request);
+    var result = cpfService.Check(request);
     var response = new ApiResponse<CpfResponseDto>(result);
     return Results.Ok(response);
 })
-.WithName("ValidateCpf")
+.WithName("CheckCpf")
 .WithTags("CPF")
 .Produces<ApiResponse<CpfResponseDto>>(StatusCodes.Status200OK)
 .WithOpenApi(op =>
 {
-    op.Summary = "Validar um CPF";
+    op.Summary = "Verificar um CPF";
     op.Description = "Recebe um CPF com ou sem máscara e retorna se é válido.";
     return op;
 });
 
-app.MapGet("cpf/generator", (
+app.MapPost("cpf/generator", (
     [FromServices] ICpfService cpfService,
-    [FromQuery] bool withMask = true,
-    [FromQuery] int maxGenerated = 1) =>
+    [FromBody] CpfGeneratorRequestDto request) =>
 {
-    var result = cpfService.Generate(withMask, maxGenerated);
+    var result = cpfService.Generate(request);
     var response = new ApiResponse<IEnumerable<string>>(result);
     return Results.Ok(response);
 })

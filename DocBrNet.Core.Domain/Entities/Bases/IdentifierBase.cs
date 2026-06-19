@@ -16,5 +16,5 @@ public abstract class IdentifierBase
     public bool IsValid { get; protected set; }
     public int DefaultLength { get; protected set; }
 
-    public abstract void Validate();
+    public abstract void Check();
 }

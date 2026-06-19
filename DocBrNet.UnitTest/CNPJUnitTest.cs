@@ -8,7 +8,7 @@ public class CnpjUnitTest
     [InlineData("36.359.237/0001-00")]
     [InlineData("79.151.553/0001-03")]
     [InlineData("65.247.902/8452-02")]
-    public void Validate_MaskedValue_ReturnTrue(string cnpjValue)
+    public void Check_MaskedValue_ReturnTrue(string cnpjValue)
     {
         AssertValidCNPJ(cnpjValue);
     }
@@ -19,7 +19,7 @@ public class CnpjUnitTest
     [InlineData("36359237000100")]
     [InlineData("79151553000103")]
     [InlineData("65247902845202")]
-    public void Validate_NonMaskedValue_ReturnTrue(string cnpjValue)
+    public void Check_NonMaskedValue_ReturnTrue(string cnpjValue)
     {
         AssertValidCNPJ(cnpjValue);
     }
@@ -30,14 +30,14 @@ public class CnpjUnitTest
     [InlineData("SX.EBH.XKL/0001-00")]
     [InlineData("CS.0XQ.KL8/0001-03")]
     [InlineData("8J.LOV.XAP/0001-02")]
-    public void Validate_MaskedValue_ReturnFalse(string cnpjValue)
+    public void Check_MaskedValue_ReturnFalse(string cnpjValue)
     {
         AssertInvalidCNPJ(cnpjValue);
     }
 
     [Theory]
     [InlineData("0")]
-    public void Validate_ShortCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
+    public void Check_ShortCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
         // Arrange
         var cnpj = new Cnpj(cnpjValue);
@@ -45,13 +45,13 @@ public class CnpjUnitTest
         // Assert & Act
         Assert.Throws<CnpjTooShortException>(() =>
         {
-            cnpj.Validate();
+            cnpj.Check();
         });
     }
 
     [Theory]
     [InlineData("123456789123456789")]
-    public void Validate_LongCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
+    public void Check_LongCNPJ_ThrowsCNPJIncorrectFormatException(string cnpjValue)
     {
         // Arrange
         var cnpj = new Cnpj(cnpjValue);
@@ -59,7 +59,7 @@ public class CnpjUnitTest
         // Assert & Act
         Assert.Throws<CnpjTooLongException>(() =>
         {
-            cnpj.Validate();
+            cnpj.Check();
         });
     }
 
@@ -108,7 +108,7 @@ public class CnpjUnitTest
         var cnpj = new Cnpj(cnpjValue);
 
         // Act
-        cnpj.Validate();
+        cnpj.Check();
 
         // Asert
         Assert.True(cnpj.IsValid);
@@ -120,7 +120,7 @@ public class CnpjUnitTest
         var cnpj = new Cnpj(cnpjValue);
 
         // Act
-        cnpj.Validate();
+        cnpj.Check();
 
         // Asert
         Assert.False(cnpj.IsValid);

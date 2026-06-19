@@ -3,27 +3,43 @@
 public class CpfService : ICpfService
 {
     private readonly IMapper _mapper;
-    private readonly IValidator<CpfRequestDto> _validator;
+    private readonly IValidator<CpfCheckerRequestDto> _checkerValidator;
+    private readonly IValidator<CpfGeneratorRequestDto> _generatorValidator;
 
-    public CpfService(IMapper mapper, IValidator<CpfRequestDto> validator)
+    public CpfService(IMapper mapper, IValidator<CpfCheckerRequestDto> checkerValidator, IValidator<CpfGeneratorRequestDto> generatorValidator)
     {
         _mapper = mapper;
-        _validator = validator;
+        _checkerValidator = checkerValidator;
+        _generatorValidator = generatorValidator;
     }
 
-    public CpfResponseDto Validate(CpfRequestDto cpfRequest)
+    public CpfResponseDto Check(CpfCheckerRequestDto cpfRequest)
     {
-        _validator.ValidateAndThrow(cpfRequest);
+        var result = _checkerValidator.Validate(cpfRequest);
+
+        if (!result.IsValid)
+        {
+            var errors = result.Errors.Select(e => e.ErrorMessage);
+            throw new ValidationException(string.Join("; ", errors));
+        }
 
         var cpf = new Cpf(cpfRequest.Value);
-        cpf.Validate();
+        cpf.Check();
         var cpfDto = _mapper.Map<CpfResponseDto>(cpf);
         return cpfDto;
     }
 
-    public IEnumerable<string> Generate(bool withMask, int maxGenerated)
+    public IEnumerable<string> Generate(CpfGeneratorRequestDto cpfRequest)
     {
+        var result = _generatorValidator.Validate(cpfRequest);
+
+        if (!result.IsValid)
+        {
+            var errors = result.Errors.Select(e => e.ErrorMessage);
+            throw new ValidationException(string.Join("; ", errors));
+        }
+
         var cpf = new Cpf();
-        return cpf.Generate(withMask, maxGenerated);
+        return cpf.Generate(cpfRequest.WithMask, cpfRequest.MaxGenerated);
     }
 }

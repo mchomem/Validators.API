@@ -8,7 +8,7 @@ public class CpfUnitTest
     [InlineData("987.654.321-00")]  
     [InlineData("111.444.777-35")]  
     [InlineData("101.150.990-34")]
-    public void Validate_MaskedValue_ReturnTrue(string cpfValue)
+    public void Check_MaskedValue_ReturnTrue(string cpfValue)
     {
         AssertValidCPF(cpfValue);
     }
@@ -19,7 +19,7 @@ public class CpfUnitTest
     [InlineData("42628943042")]
     [InlineData("59338512053")]
     [InlineData("66974406002")]
-    public void Validate_NonMaskedValue_ReturnTrue(string cpfValue)
+    public void Check_NonMaskedValue_ReturnTrue(string cpfValue)
     {
         AssertValidCPF(cpfValue);
     }
@@ -30,7 +30,7 @@ public class CpfUnitTest
     [InlineData("333.333.333-33")]
     [InlineData("444.444.444-44")]
     [InlineData("555.555.555-55")]
-    public void Validate_WithSameNumericalValue_ReturnFalse(string cpfValue)
+    public void Check_WithSameNumericalValue_ReturnFalse(string cpfValue)
     {
         AssertInvalidCPF(cpfValue);
     }
@@ -41,14 +41,14 @@ public class CpfUnitTest
     [InlineData("152.302.158-68")]
     [InlineData("352.894.195-96")]
     [InlineData("023.583.060-05")]
-    public void Validate_MaskedValue_ReturnFalse(string cpfValue)
+    public void Check_MaskedValue_ReturnFalse(string cpfValue)
     {
         AssertInvalidCPF(cpfValue);
     }
 
     [Theory]
     [InlineData("0")]
-    public void Validate_ShortCPFValue_ThrowsCPFTooShortException(string cpfValue)
+    public void Check_ShortCPFValue_ThrowsCPFTooShortException(string cpfValue)
     {
         // Arrange
         var cpf = new Cpf(cpfValue);
@@ -56,13 +56,13 @@ public class CpfUnitTest
         // Assert & Act
         Assert.Throws<CPFTooShortException>(() =>
         {
-            cpf.Validate();
+            cpf.Check();
         });
     }
 
     [Theory]
     [InlineData("123456789123456789")]
-    public void Validate_LongCPFValue_ThrowsCPFTooLongException(string cpfValue)
+    public void Check_LongCPFValue_ThrowsCPFTooLongException(string cpfValue)
     {
         // Arrange
         var cpf = new Cpf(cpfValue);
@@ -70,7 +70,7 @@ public class CpfUnitTest
         // Assert & Act
         Assert.Throws<CpfTooLongException>(() =>
         {
-            cpf.Validate();
+            cpf.Check();
         });
     }
 
@@ -106,7 +106,7 @@ public class CpfUnitTest
         var cpf = new Cpf(cpfValue);
 
         // Act
-        cpf.Validate();
+        cpf.Check();
 
         // Asert
         Assert.True(cpf.IsValid);
@@ -118,7 +118,7 @@ public class CpfUnitTest
         var cpf = new Cpf(cpfValue);
 
         // Act
-        cpf.Validate();
+        cpf.Check();
 
         // Asert
         Assert.False(cpf.IsValid);

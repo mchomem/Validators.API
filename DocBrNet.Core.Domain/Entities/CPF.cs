@@ -26,7 +26,7 @@ public sealed class Cpf : IdentifierBase, ICpf
     /// </summary>
     /// <exception cref="CpfTooLongException">Ocorre quando o CPF informado é muito longo.</exception>
     /// <exception cref="CPFTooShortException">Ocorre quando o CPF informado é muito curto.</exception>
-    public override void Validate()
+    public override void Check()
     {
         // Remove a máscara do CPF e espaços vazios, se existir.
         Value = Regex.Replace(Value, @"[.\- ]", string.Empty);
@@ -52,6 +52,13 @@ public sealed class Cpf : IdentifierBase, ICpf
         IsValid = Value == calculatedCpf;
     }
 
+    /// <summary>
+    /// Gera uma lista de CPFs aleatórios, com a opção de incluir ou não a máscara padrão. O método aceita um parâmetro para definir a quantidade máxima de CPFs a serem gerados, garantindo que o número não ultrapasse um limite pré-definido para evitar sobrecarga do sistema.
+    /// </summary>
+    /// <param name="withMask">Indica se o CPF gerado deve incluir a máscara padrão.</param>
+    /// <param name="maxGenerated">A quantidade máxima de CPFs a serem gerados.</param>
+    /// <returns>Uma lista de CPFs gerados.</returns>
+    /// <exception cref="CpfMaximumQuantityAllowedException">Ocorre quando a quantidade máxima de CPFs a serem gerados é excedida.</exception>
     public IEnumerable<string> Generate(bool withMask, int maxGenerated)
     {
         var maxValue = 100;

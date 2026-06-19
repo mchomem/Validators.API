@@ -3,27 +3,43 @@
 public class CnpjService : ICnpjService
 {
     private readonly IMapper _mapper;
-    private readonly IValidator<CnpjRequestDto> _validator;
+    private readonly IValidator<CnpjCheckerRequestDto> _checkerValidator;
+    private readonly IValidator<CnpjGeneratorRequestDto> _generatorValidator;
 
-    public CnpjService(IMapper mapper, IValidator<CnpjRequestDto> validator)
+    public CnpjService(IMapper mapper, IValidator<CnpjCheckerRequestDto> checkerValidator, IValidator<CnpjGeneratorRequestDto> generatorValidator)
     {
         _mapper = mapper;
-        _validator = validator;
+        _checkerValidator = checkerValidator;
+        _generatorValidator = generatorValidator;
     }
 
-    public CnpjResponseDto Check(CnpjRequestDto cnpjRequest)
+    public CnpjResponseDto Check(CnpjCheckerRequestDto cnpjRequest)
     {
-        _validator.ValidateAndThrow(cnpjRequest);
+        var result = _checkerValidator.Validate(cnpjRequest);
+
+        if (!result.IsValid)
+        {
+            var errors = result.Errors.Select(e => e.ErrorMessage);
+            throw new ValidationException(string.Join("; ", errors));
+        }
 
         var cnpj = new Cnpj(cnpjRequest.Value);
-        cnpj.Validate();
+        cnpj.Check();
         var cnpjDto = _mapper.Map<CnpjResponseDto>(cnpj);
         return cnpjDto;
     }
 
-    public IEnumerable<string> Generate(TypeCnpj type, bool withMask, int maxGenerated)
+    public IEnumerable<string> Generate(CnpjGeneratorRequestDto cnpjRequest)
     {
+        var result = _generatorValidator.Validate(cnpjRequest);
+
+        if (!result.IsValid)
+        {
+            var errors = result.Errors.Select(e => e.ErrorMessage);
+            throw new ValidationException(string.Join("; ", errors));
+        }
+
         var cnpj = new Cnpj();
-        return cnpj.Generate(type, withMask, maxGenerated);
+        return cnpj.Generate(cnpjRequest.Type, cnpjRequest.WithMask, cnpjRequest.MaxGenerated);
     }
 }

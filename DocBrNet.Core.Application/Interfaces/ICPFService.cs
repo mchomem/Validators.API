@@ -2,7 +2,7 @@
 
 public interface ICpfService
 {
-    CpfResponseDto Validate(CpfRequestDto cpfRequest);
+    CpfResponseDto Check(CpfCheckerRequestDto cpfRequest);
 
-    IEnumerable<string> Generate(bool withMask, int maxGenerated);
+    IEnumerable<string> Generate(CpfGeneratorRequestDto cpfRequest);
 }

@@ -2,7 +2,7 @@
 
 public interface ICnpjService
 {
-    CnpjResponseDto Check(CnpjRequestDto cnpjRequest);
+    CnpjResponseDto Check(CnpjCheckerRequestDto cnpjRequest);
 
-    IEnumerable<string> Generate(TypeCnpj type, bool withMask, int maxGenerated);
+    IEnumerable<string> Generate(CnpjGeneratorRequestDto cnpjRequest);
 }

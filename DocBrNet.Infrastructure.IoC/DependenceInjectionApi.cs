@@ -13,8 +13,11 @@ public static class DependenceInjectionApi
 
         #region Validators
 
-        services.AddScoped<IValidator<CnpjRequestDto>, CnpjRequestValidator>();
-        services.AddScoped<IValidator<CpfRequestDto>, CpfRequestValidator>();
+        services.AddScoped<IValidator<CnpjCheckerRequestDto>, CnpjCheckerRequestValidator>();
+        services.AddScoped<IValidator<CpfCheckerRequestDto>, CpfCheckerRequestValidator>();
+
+        services.AddScoped<IValidator<CnpjGeneratorRequestDto>, CnpjGeneratorRequestValidator>();
+        services.AddScoped<IValidator<CpfGeneratorRequestDto>, CpfGeneratorRequestValidator>();
 
         #endregion
 
