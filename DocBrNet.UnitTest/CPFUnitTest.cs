@@ -54,7 +54,7 @@ public class CpfUnitTest
         var cpf = new Cpf(cpfValue);
 
         // Assert & Act
-        Assert.Throws<CPFTooShortException>(() =>
+        Assert.Throws<CpfTooShortException>(() =>
         {
             cpf.Check();
         });

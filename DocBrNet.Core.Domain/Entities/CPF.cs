@@ -25,7 +25,7 @@ public sealed class Cpf : IdentifierBase, ICpf
     /// Valida o CPF, removendo quaisquer caracteres de formatação (como pontos, traços e espaços) e verificando se o número resultante tem exatamente 11 dígitos. Em seguida, calcula os dígitos verificadores e compara com o valor fornecido para determinar se o CPF é válido ou não.
     /// </summary>
     /// <exception cref="CpfTooLongException">Ocorre quando o CPF informado é muito longo.</exception>
-    /// <exception cref="CPFTooShortException">Ocorre quando o CPF informado é muito curto.</exception>
+    /// <exception cref="CpfTooShortException">Ocorre quando o CPF informado é muito curto.</exception>
     public override void Check()
     {
         // Remove a máscara do CPF e espaços vazios, se existir.
@@ -35,7 +35,7 @@ public sealed class Cpf : IdentifierBase, ICpf
             throw new CpfTooLongException($"Formato incorreto: o CPF deve conter {DefaultLength} dígitos.");
 
         if (Value.Length < DefaultLength)
-            throw new CPFTooShortException($"Formato incorreto: o CPF deve conter {DefaultLength} dígitos.");
+            throw new CpfTooShortException($"Formato incorreto: o CPF deve conter {DefaultLength} dígitos.");
 
         // Previne caracteres repetidos, como "11111111111", "22222222222", etc.
         if (Value.All(c => c == Value.First()))

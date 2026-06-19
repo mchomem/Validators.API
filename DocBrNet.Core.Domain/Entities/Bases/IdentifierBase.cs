@@ -1,6 +1,4 @@
-﻿using DocBrNet.Core.Domain.Enums;
-
-namespace DocBrNet.Core.Domain.Entities.Bases;
+﻿namespace DocBrNet.Core.Domain.Entities.Bases;
 
 public abstract class IdentifierBase
 {

@@ -1,5 +1,8 @@
 ﻿namespace DocBrNet.Core.Application.Validators;
 
+/// <summary>
+/// Validador para as requisições de geração de CNPJ, garantindo que os dados fornecidos sejam válidos antes de processar a solicitação.
+/// </summary>
 public class CnpjGeneratorRequestValidator : AbstractValidator<CnpjGeneratorRequestDto>
 {
     public CnpjGeneratorRequestValidator()
