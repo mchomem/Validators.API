@@ -1,43 +1,87 @@
-﻿@Validators.API_HostAddress = http://localhost:5157
+﻿@DocBrNet.API.API_HostAddress = http://localhost:5157
+@MaxGenerated = 10
 
-POST {{Validators.API_HostAddress}}/cnpj/validator
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
 Content-Type: application/json
 {
     "value": "12.ABC.345/01DE-35"
 }
 ###
 
-POST {{Validators.API_HostAddress}}/cnpj/validator
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
 Content-Type: application/json
 {
     "value": "12ABC34501DE35"
 }
 ###
 
-POST {{Validators.API_HostAddress}}/cnpj/validator
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
 Content-Type: application/json
 {
     "value": "56.ABC.345/21DE-70"
 }
 ###
 
-POST {{Validators.API_HostAddress}}/cnpj/validator
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
 Content-Type: application/json
 {
     "value": "18.781.203/0001-28"
 }
 ###
 
-POST {{Validators.API_HostAddress}}/cnpj/validator
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
 Content-Type: application/json
 {
     "value": "1"
 }
 ###
 
-POST {{Validators.API_HostAddress}}/cnpj/validator
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
 Content-Type: application/json
 {
     "value": "123456789123456789"
+}
+###
+
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/check
+Content-Type: application/json
+{
+    "value": ""
+}
+###
+
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/generator
+Content-Type: application/json
+{
+  "type": 0,
+  "withMask": true,
+  "maxGenerated": {{MaxGenerated}}
+}
+###
+
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/generator
+Content-Type: application/json
+{
+  "type": 0,
+  "withMask": false,
+  "maxGenerated": {{MaxGenerated}}
+}
+###
+
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/generator
+Content-Type: application/json
+{
+  "type": 1,
+  "withMask": true,
+  "maxGenerated": {{MaxGenerated}}
+}
+###
+
+POST {{DocBrNet.API.API_HostAddress}}/cnpj/generator
+Content-Type: application/json
+{
+  "type": 1,
+  "withMask": false,
+  "maxGenerated": {{MaxGenerated}}
 }
 ###
