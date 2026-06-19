@@ -37,6 +37,13 @@ public class ExceptionHandlingMiddleware
                 statusCode = (int)HttpStatusCode.BadRequest;
                 break;
 
+            case ValidationException validationException:
+                var formattedMessage = string.Join(" ", validationException.Errors.Select((e, index) => $"Erro {index + 1}: {e.ErrorMessage}"));
+
+                response = new ApiResponse<string>(formattedMessage, "Erro de validação", false);
+                statusCode = (int)HttpStatusCode.BadRequest;
+                break;
+
             default:
                 response = new ApiResponse<string>($"Um erro inesperado ocorreu. Detalhes: {exception.Message}", "Internal server error.", false);
                 statusCode = (int)HttpStatusCode.InternalServerError;

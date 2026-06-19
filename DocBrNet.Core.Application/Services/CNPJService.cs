@@ -15,13 +15,7 @@ public class CnpjService : ICnpjService
 
     public CnpjResponseDto Check(CnpjCheckerRequestDto cnpjRequest)
     {
-        var result = _checkerValidator.Validate(cnpjRequest);
-
-        if (!result.IsValid)
-        {
-            var errors = result.Errors.Select(e => e.ErrorMessage);
-            throw new ValidationException(string.Join("; ", errors));
-        }
+        _checkerValidator.ValidateAndThrow(cnpjRequest);
 
         var cnpj = new Cnpj(cnpjRequest.Value);
         cnpj.Check();
@@ -31,13 +25,7 @@ public class CnpjService : ICnpjService
 
     public IEnumerable<string> Generate(CnpjGeneratorRequestDto cnpjRequest)
     {
-        var result = _generatorValidator.Validate(cnpjRequest);
-
-        if (!result.IsValid)
-        {
-            var errors = result.Errors.Select(e => e.ErrorMessage);
-            throw new ValidationException(string.Join("; ", errors));
-        }
+        _generatorValidator.ValidateAndThrow(cnpjRequest);
 
         var cnpj = new Cnpj();
         return cnpj.Generate(cnpjRequest.Type, cnpjRequest.WithMask, cnpjRequest.MaxGenerated);

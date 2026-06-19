@@ -15,13 +15,7 @@ public class CpfService : ICpfService
 
     public CpfResponseDto Check(CpfCheckerRequestDto cpfRequest)
     {
-        var result = _checkerValidator.Validate(cpfRequest);
-
-        if (!result.IsValid)
-        {
-            var errors = result.Errors.Select(e => e.ErrorMessage);
-            throw new ValidationException(string.Join("; ", errors));
-        }
+        _checkerValidator.ValidateAndThrow(cpfRequest);
 
         var cpf = new Cpf(cpfRequest.Value);
         cpf.Check();
@@ -31,13 +25,7 @@ public class CpfService : ICpfService
 
     public IEnumerable<string> Generate(CpfGeneratorRequestDto cpfRequest)
     {
-        var result = _generatorValidator.Validate(cpfRequest);
-
-        if (!result.IsValid)
-        {
-            var errors = result.Errors.Select(e => e.ErrorMessage);
-            throw new ValidationException(string.Join("; ", errors));
-        }
+        _generatorValidator.ValidateAndThrow(cpfRequest);
 
         var cpf = new Cpf();
         return cpf.Generate(cpfRequest.WithMask, cpfRequest.MaxGenerated);
