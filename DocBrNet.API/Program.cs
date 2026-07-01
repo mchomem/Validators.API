@@ -11,18 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen()
     .AddInfrastructureApi()
-    .AddInfrastructureSwagger(builder.Configuration);
+    .AddInfrastructureOpenApi(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // 1. Gera o JSON nativo do OpenAPI na rota /openapi/v1.json
+    app.MapOpenApi();
+
+    // 2. Ativa a interface visual do Swagger
+    app.UseSwaggerUI(options =>
+    {
+        // Aponta para o JSON gerado pela engine nativa do .NET
+        options.SwaggerEndpoint("/openapi/v1.json", "API v1");
+    });
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -39,11 +44,11 @@ app.MapPost("/cnpj/check", ([FromServices] ICnpjService cnpjService, [FromBody] 
 .WithName("CheckCnpj")
 .WithTags("CNPJ")
 .Produces<ApiResponse<CnpjResponseDto>>(StatusCodes.Status200OK)
-.WithOpenApi(op =>
+.AddOpenApiOperationTransformer((opperation, context, ct) =>
 {
-    op.Summary = "Verificar um CNPJ";
-    op.Description = "Recebe um CNPJ (numérico ou alfanumérico) com ou sem máscara e retorna se é válido.";
-    return op;
+    opperation.Summary = "Verificar um CNPJ";
+    opperation.Description = "Recebe um CNPJ (numérico ou alfanumérico) com ou sem máscara e retorna se é válido.";
+    return Task.FromResult(opperation);
 });
 
 app.MapPost("cnpj/generator", (
@@ -56,11 +61,10 @@ app.MapPost("cnpj/generator", (
 })
 .WithTags("CNPJ")
 .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status200OK)
-.WithOpenApi(op =>
-{
-    op.Summary = "Gerar CNPJ's";
-    op.Description = "Gera CNPJ's numéricos ou alfanuméricos e com ou sem máscara.";
-    return op;
+.AddOpenApiOperationTransformer((opperation, context, ct) => {
+    opperation.Summary = "Gerar CNPJ's";
+    opperation.Description = "Gera CNPJ's numéricos ou alfanuméricos e com ou sem máscara.";
+    return Task.FromResult(opperation);
 });
 
 app.MapPost("/cpf/check", ([FromServices] ICpfService cpfService, [FromBody] CpfCheckerRequestDto request) =>
@@ -72,11 +76,10 @@ app.MapPost("/cpf/check", ([FromServices] ICpfService cpfService, [FromBody] Cpf
 .WithName("CheckCpf")
 .WithTags("CPF")
 .Produces<ApiResponse<CpfResponseDto>>(StatusCodes.Status200OK)
-.WithOpenApi(op =>
-{
-    op.Summary = "Verificar um CPF";
-    op.Description = "Recebe um CPF com ou sem máscara e retorna se é válido.";
-    return op;
+.AddOpenApiOperationTransformer((opperation, context, ct) => {
+    opperation.Summary = "Verificar um CPF";
+    opperation.Description = "Recebe um CPF com ou sem máscara e retorna se é válido.";
+    return Task.FromResult(opperation);
 });
 
 app.MapPost("cpf/generator", (
@@ -89,11 +92,10 @@ app.MapPost("cpf/generator", (
 })
 .WithTags("CPF")
 .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status200OK)
-.WithOpenApi(op =>
-{
-    op.Summary = "Gerar CPF's";
-    op.Description = "Gera CPF's com ou sem máscara.";
-    return op;
+.AddOpenApiOperationTransformer((opperation, context, ct) => {
+    opperation.Summary = "Gerar CPF's";
+    opperation.Description = "Gera CPF's com ou sem máscara.";
+    return Task.FromResult(opperation);
 });
 
 #endregion

@@ -33,14 +33,14 @@ public static class DependenceInjectionApi
         return services;
     }
 
-    public static IServiceCollection AddInfrastructureSwagger(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureOpenApi(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(options =>
+        // O .NET 10 já ativa os comentários XML por Source Generator internamente aqui
+        services.AddOpenApi(options =>
         {
-            options.SwaggerDoc(
-                "v1"
-                , new OpenApiInfo
+            options.AddDocumentTransformer((document, context, cancellationToken) =>
+            {
+                document.Info = new OpenApiInfo
                 {
                     Title = "DocBrNet.API",
                     Version = "v1",
@@ -48,14 +48,11 @@ public static class DependenceInjectionApi
                     Contact = new OpenApiContact
                     {
                         Name = "Misael C. Homem",
-                        Email = "misael.homem@gmail.com",
                         Url = new Uri(configuration.GetSection("AuthorProfile").Value!)
-                    },
-                });
-
-            string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            options.IncludeXmlComments(xmlPath);
+                    }
+                };
+                return Task.CompletedTask;
+            });
         });
 
         return services;
